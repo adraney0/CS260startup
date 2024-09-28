@@ -22,7 +22,7 @@ https://webprogramming260.click
 - Certificate Issuer - responsible for verifying the certificate owner actually owns the domain represented by certificate
 
 # 9.17.24
-- <!DOCTYPE html> - tells browser you’re giving it
+- !DOCTYPE html - tells browser you’re giving it HTML
 ### HTML
 - lang = “en”  - language is english
 - HTML is building a tree (DOM - document object model)
@@ -36,31 +36,31 @@ https://webprogramming260.click
 - HTML - hypertext markup language, used to structure a web page and its content
 - DOM - documet object model. A tree, HTML that you write describes the strucutre. Data structure that contains all the information of your web app.
 ### HTML: Simon
-- <sup> - superscript
-- & signifies escape character
-- <a> - anchor, url
-- <hr> - horizontal rule, makes a line
+- sup - superscript
+- & - signifies escape character
+- a - anchor, url
 - class - for styling, multiple things
 - id - single thing
-- <span> - doesn’t go across the whole page
+- span - doesn’t go across the whole page
 - A browser is an interpreter. Doesn’t give you any feedback
 
 # 9.24.24
 ## CSS: Rules, Box Model, Fonts, Animation, Grid, Flex
 ### Application One
-<body>
+"<body>
 	<p style = "color:red"> CSS </p>
-</body>
+</body>"
+
 - CSS in element tags, only applies to this single paragraph
 
 ### Application Two
-<head>
+"<head>
 <style>
 	p {
 		color: green;
 	}
 </style>
-</head>
+</head>"
 - CSS in the head of HTML, applies to all paragraph tags
 
 ### Application Three
@@ -84,7 +84,6 @@ https://webprogramming260.click
 - flex - like grid but fancier
 - grid - put things in a grid
 
-
 # 9.28.24 - Development
-- <hr/> tag - horizontal rule, makes a horizontal line
+- hr tag - horizontal rule, makes a horizontal line
 - pattern for pushing up to git: git add ., git commit -m "description", git push
