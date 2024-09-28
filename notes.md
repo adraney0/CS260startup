@@ -47,20 +47,9 @@ https://webprogramming260.click
 # 9.24.24
 ## CSS: Rules, Box Model, Fonts, Animation, Grid, Flex
 ### Application One
-"<body>
-	<p style = "color:red"> CSS </p>
-</body>"
-
 - CSS in element tags, only applies to this single paragraph
 
 ### Application Two
-"<head>
-<style>
-	p {
-		color: green;
-	}
-</style>
-</head>"
 - CSS in the head of HTML, applies to all paragraph tags
 
 ### Application Three
