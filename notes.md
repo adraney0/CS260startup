@@ -76,3 +76,4 @@ https://webprogramming260.click
 # 9.28.24 - Development
 - hr tag - horizontal rule, makes a horizontal line
 - pattern for pushing up to git: git add ., git commit -m "description", git push
+- ./deployFiles.sh -k ~/Documents/KEYS/CS260.pem -h webprogramming260.click -s startup -> command to deploy to production environment
