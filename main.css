@@ -5,3 +5,27 @@
 .text-custom {
     color: #1D3354;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-width: 375 px;
+}
+
+header {
+    flex: 0 80px;
+}
+
+main {
+    flex: 1 1 calc(100vh - 110px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+footer {
+    flex: 0 30px;
+}
+footer a {
+    float:right;
+}
