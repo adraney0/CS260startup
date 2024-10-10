@@ -1,0 +1,23 @@
+table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-collapse: collapse;
+}
+
+td {
+    width: 50px;
+    height: 50px;
+}
+
+tr {
+    display: flex;
+    justify-content: center;
+}
+
+.game-button {
+    width: 50px; /* Width of the button */
+    height: 50px; /* Height of the button */
+    border: none; /* Remove default border */
+    border-radius: 50%; /* Make it circular */
+}
