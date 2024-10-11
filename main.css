@@ -1,10 +1,3 @@
-.bg-custom {
-    background-color: #E9FFF9;
-}
-
-.text-custom {
-    color: #1D3354;
-}
 
 body {
     display: flex;
@@ -23,9 +16,28 @@ main {
     align-items: center;
     justify-content: space-around;
 }
+
+menu {
+    flex: 1;
+    display: flex;
+    flex-direction: row !important;
+    list-style: none;
+}
+
+menu .nav-item {
+    padding: 0 0.3em
+}
 footer {
     flex: 0 30px;
 }
 footer a {
     float:right;
+}
+
+.bg-custom {
+    background-color: #E9FFF9;
+}
+
+.text-custom {
+    color: #1D3354;
 }
