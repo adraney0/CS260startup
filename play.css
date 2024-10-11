@@ -21,3 +21,9 @@ tr {
     border: none; /* Remove default border */
     border-radius: 50%; /* Make it circular */
 }
+
+.centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
