@@ -44,3 +44,12 @@ For this deliverable I built the structure of my application using HTML
 - Images - image included on about page for visual aesthetics.
 - DB/Login - Input box and submit button for login. High scores represent data pulled from database. Current user name is displayed on play page.
 - Websocket - Placeholder for websocket on high scores page. Represents display of realtime high scores from different users. Second placeholder on play page representing when users start or end games.
+
+## CSS Deliverable
+For this deliverable I properly styled the application into its final appearance
+- Header, footer, and main content body
+- Navigation Elements - Styled across top of page, no underlines
+- Window Resizing Responsiveness - Elements of application are responsive to resizing, grow/shrink in reponse to changes.
+- Application Elements - Used consistent color themes, with good contrast.
+- Application Text Content - Used consistent fonts
+- Application Images - Image on about page is properly styled, responsive to window resizing.
