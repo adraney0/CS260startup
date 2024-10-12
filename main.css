@@ -17,6 +17,10 @@ main {
     justify-content: center;
 }
 
+footer {
+    flex: 0 30px;
+}
+
 menu {
     flex: 1;
     display: flex;
@@ -27,17 +31,40 @@ menu {
 menu .nav-item {
     padding: 0 0.3em
 }
-footer {
-    flex: 0 30px;
-}
+
 footer a {
     float:right;
 }
 
-.bg-custom {
+.bg-second {
     background-color: #E9FFF9;
 }
 
-.text-custom {
+.bg-main {
+    background-color: #008080;
+}
+
+.btn-main {
+    background-color: #1D3354 !important;
+    color: white !important; /* Change text color if needed */
+}
+.btn-second {
+    background-color: #467599 !important;
+    color: white !important; /* Change text color if needed */
+}
+
+@media (max-height: 600px) {
+    header {
+      display: none;
+    }
+    footer {
+      display: none;
+    }
+    main {
+      flex: 1 100vh;
+    }
+  }
+
+.custom-link {
     color: #1D3354;
 }

@@ -13,7 +13,7 @@
         />
 
     </head>
-    <body class = "bg-dark text-light">
+    <body class = "bg-main text-light">
         <header class = "container fluid">
             <nav class = "navbar fixed-top navbar-dark">
                 <a class = "navbar-brand" href = "#">Triangular Peg Solitaire</a>
@@ -25,15 +25,15 @@
                 </menu>
             </nav>
         </header>
-        <main class = "container-fluid bg-secondary text-center">
-            <table class = "table table-warning table-striped-columns">
+        <main class = "container-fluid bg-second text-center">
+            <table class = "table table-warning">
                 <thead class = "table-dark">
                     <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Pegs Remaining</th>
-                        <th>Moves</th>
-                        <th>Date</th>
+                        <th class = "btn-main">#</th>
+                        <th class = "btn-main">Name</th>
+                        <th class = "btn-main">Pegs Remaining</th>
+                        <th class = "btn-main">Moves</th>
+                        <th class = "btn-main">Date</th>
                     </tr>
                 </thead>
                 <tbody class = "table-primary">
@@ -62,9 +62,12 @@
             </table>
             <hr />
         </main>
-        <footer>
-            <div>Belle Draney</div>
-            <div><a href = "https://github.com/adraney0/CS260startup/tree/main">GitHub</a></div>
+        <footer class = "bg-main text-white">
+            <div class = "container-fluid">
+                <span>Belle Draney</span>
+                <a href = "https://github.com/adraney0/CS260startup/tree/main" class = "custom-link">GitHub</a>
+            </div>
+            
         </footer>
     </body>
 </html>
