@@ -2,6 +2,10 @@ body {
     display: flex;
     flex-direction: column;
     min-width: 375 px;
+    position:fixed;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 header {
@@ -62,7 +66,7 @@ footer a {
     main {
       flex: 1 100vh;
     }
-  }
+}
 
 .custom-link {
     color: #1D3354;
@@ -147,6 +151,7 @@ tr {
     height: 20px;
     border: solid thin #006565;
     background-color: #014949;
+    padding: 0px 5px;
 
 }
 
@@ -154,7 +159,7 @@ tr {
     background-color:  rgb(192, 192, 192) !important;
 }
 
-button:hover {
+.game-button:hover {
     background-color: #131736; /* Darker color on hover */
     transform: scale(1.1); /* Slightly enlarge button on hover */
 }
