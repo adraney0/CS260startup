@@ -80,3 +80,6 @@ https://webprogramming260.click
 
 # 10.8.24
 - fixing file management system
+
+# 10.12.24
+- ensure that you have the correct path for pem file when pushing up to production 
