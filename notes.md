@@ -147,11 +147,25 @@ https://webprogramming260.click
 - to use, go to directory that holds cold you want to work on (vi index.html)
 - works entirely by keyboard commands
 
-| Header 1 | Header 2 | Header 3 |
-|----------|----------|----------|
-| Row 1    | Data 1   | Data 2   |
-| Row 2    | Data 3   | Data 4   |
-| Row 3    | Data 5   | Data 6   |
-
+| keystroke |                 meaning                 |
+|:---------:|:---------------------------------------:|
+| :h        | help                                    |
+| i         | enter insert mode.                      |
+| u         | undo                                    |
+| CTRL-r    | redo                                    |
+| gg        | go to beginning of file                 |
+| G         | go to end of file                       |
+| /         | search for text that you type after /   |
+| n         | next search match                       |
+| N         | previous search match                   |
+| v         | visually select text                    |
+| y         | yank or copy selected text to clipboard |
+| p         | paste clipboard                         |
+| CTRL-wv   | Split window vertically                 |
+| CTRL-ww   | Toggle windows                          |
+| CTRL-wq   | Close current window                    |
+| :e        | Open a file.                            |
+| :w        | write file (save)                       |
+| :q        | quit. Use :q! to exit without saving    |
 
 ## Git
