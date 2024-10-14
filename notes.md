@@ -148,7 +148,7 @@ https://webprogramming260.click
 - works entirely by keyboard commands
 | Keystroke    | Meaning |
 | --------     | ------- |
-| :h           | enter insert mode. This will allow you to type and delete text. Use ESC to exit insert mode. No other commands will work while in insert mode.    |
+| :h           |         |
 | i            | $80     |
 | u            | $420    |
 ## Git
