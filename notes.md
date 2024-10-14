@@ -83,3 +83,72 @@ https://webprogramming260.click
 
 # 10.12.24
 - ensure that you have the correct path for pem file when pushing up to production 
+
+# Midterm Notes
+## Introduction
+### History of the Web
+- ARPANET 1970s by Department of Defense. Goal of withstanding nuclear attack.
+- 1980s - National Science Foundation continued expansion
+- Management - Internet Engineernig Task Force (IETF), defines technical standards that specify how the physical network communicates. Internet Coorporation for Assigned Names and Numbers (ICAAN) oversees Internet Protocol (IP) and Domain Name System (DNS)
+#### HTML
+- Hypertext Markup Language
+- 1980, Tim Berners-Lee
+- Document sharing
+#### HTTP and URL
+- HyperText Transfer Protocol
+- Uniform resource Locator
+- Specify how web documents are addressed and transmitted across the Internet 
+#### CSS
+- Cascading Style Sheets
+- 1994, Hakon Wium Lie
+#### JavaScript
+- Brendan Eich
+- Interactive Experience
+- Node.js, 2009 Ryan Dahl, deploying JS outside the
+## The Console
+- Aka Command line, shell, terminal, console window
+- provides acces to file system and allows for execution of command line applications. Organized in tree structure of nodes called directories
+- Commands:
+    - pwd - present working directory
+    - ls - list files
+    echo - Output the parameters of the command
+    - cd - Change directory
+    - mkdir - Make directory
+    - rmdir - Remove directory
+    - rm - Remove file(s)
+    - mv - Move file(s)
+    - cp - Copy files
+    - ls - List files
+    - curl - Command line client URL browser
+    - grep - Regular expression search
+    - find - Find files
+    - top - View running processes with CPU and memory usage
+    - df - View disk statistics
+    - cat - Output the contents of a file
+    - less - Interactively output the contents of a file
+    - wc - Count the words in a file
+    - ps - View the currently running processes
+    - kill - Kill a currently running process
+    - sudo - Execute a command as a super user (admin)
+    - ssh - Create a secure shell on a remote computer
+    - scp - Securely copy files to a remote computer
+    - history - Show the history of commands
+    - ping - Check if a website is up
+    - tracert - Trace the connections to a website
+    - dig - Show the DNS information for a domain
+    - man - Look up a command in the manual
+    - | - Take the output from the command on the left and pipe, or pass, it to the command on the right
+    - CTRL-R - Use type ahead to find previous commands
+    - CTRL-C - Kill the currently running command
+## Editors
+- workspace of a web application developer
+### VI
+- oldest console editors. Available on every Linux server
+- to use, go to directory that holds cold you want to work on (vi index.html)
+- works entirely by keyboard commands
+| Keystroke    | Meaning |
+| --------     | ------- |
+| :h           | enter insert mode. This will allow you to type and delete text. Use ESC to exit insert mode. No other commands will work while in insert mode.    |
+| i            | $80     |
+| u            | $420    |
+## Git
