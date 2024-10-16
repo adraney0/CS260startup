@@ -277,6 +277,7 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 - aside, aside to the content
 ## Input
 - elements for accepting user input
+
 |  Element |              Meaning             |                    Example                   |
 |:--------:|:--------------------------------:|:--------------------------------------------:|
 | form     | Input container and submission   | <form action="form.html" method="post">      |
@@ -289,11 +290,13 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 | label    | Individual input label           | <label for="range">Range: </label>           |
 | output   | Output of input                  | <output for="range">0</output>               |
 | meter    | Display value with a known range | <meter min="0" max="100" value="50"></meter> |
+
 ### Form Element
 - main purpose is to submit values of input it contains
 - not required to use input elements
 ### Input Element
 - set input with type attribute
+
 |      Type      |                    Meaning                   |
 |:--------------:|:--------------------------------------------:|
 | text           | Single line textual value                    |
@@ -329,7 +332,9 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 | video          | Video content                                |
 | svg            | Scalable vector graphic content              |
 | iframe         | Inline frame of another HTML page            |
+
 -  common attributes
+
 | Attribute |                                       Meaning                                       |
 |:---------:|:-----------------------------------------------------------------------------------:|
 | name      | The name of the input. This is submitted as the name of the input if used in a form |
@@ -337,6 +342,7 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 | value     | The initial value of the input                                                      |
 | required  | Signifies that a value is required in order to be valid                             |
 | url       | URL address                                                                         |
+
 - pattern attribute for text, search, url, tel, email and password inputs. Provides regular expression that must match for input ot be valid
 ## Media
 - includes img, audio, video, (references to external file) svg, and canvas (contain code to renver visual image).
