@@ -261,3 +261,90 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 | video   | Video content                                                          |
 | svg     | Scalable vector graphic content                                        |
 | iframe  | Inline frame of another HTML page                                      |
+- comment <!-- -->
+### Special Characters
+| Character |   Entity  |
+|:---------:|:---------:|
+| &         | &amp;     |
+| <         | &lt;      |
+| >         | &gt;      |
+| "         | &quot;    |
+| '         | &apos;    |
+## Structure
+- main purpose is structure and content
+- block element, distinct block in flow of content structure (paragraph, div)
+- inline, inline with the content flow (span, b)
+- aside, aside to the content
+## Input
+- elements for accepting user input
+|  Element |              Meaning             |                    Example                   |
+|:--------:|:--------------------------------:|:--------------------------------------------:|
+| form     | Input container and submission   | <form action="form.html" method="post">      |
+| fieldset | Labeled input grouping           | <fieldset> ... </fieldset>                   |
+| input    | Multiple types of user input     | <input type="" />                            |
+| select   | Selection dropdown               | <select><option>1</option></select>          |
+| optgroup | Grouped selection dropdown       | <optgroup><option>1</option></optgroup>      |
+| option   | Selection option                 | <option selected>option2</option>            |
+| textarea | Multiline text input             | <textarea></textarea>                        |
+| label    | Individual input label           | <label for="range">Range: </label>           |
+| output   | Output of input                  | <output for="range">0</output>               |
+| meter    | Display value with a known range | <meter min="0" max="100" value="50"></meter> |
+### Form Element
+- main purpose is to submit values of input it contains
+- not required to use input elements
+### Input Element
+- set input with type attribute
+|      Type      |                    Meaning                   |
+|:--------------:|:--------------------------------------------:|
+| text           | Single line textual value                    |
+| password       | Obscured password                            |
+| email          | Email address                                |
+| tel            | Telephone number                             |
+| url            | URL address                                  |
+| number         | Numerical value                              |
+| checkbox       | Inclusive selection                          |
+| radio          | Exclusive selection                          |
+| range          | Range limited number                         |
+| date           | Year, month, day                             |
+| datetime-local | Date and time                                |
+| month          | Year, month                                  |
+| week           | Week of year                                 |
+| color          | Color                                        |
+| file           | Local file                                   |
+| submit         | button to trigger form submission            |
+| p              | A paragraph of text                          |
+| b              | Bring attention                              |
+| table          | Table                                        |
+| tr             | Table row                                    |
+| th             | Table header                                 |
+| td             | Table data                                   |
+| ol,ul          | Ordered or unordered list                    |
+| li             | List item                                    |
+| a              | Anchor the text to a hyperlink               |
+| img            | Graphical image reference                    |
+| dialog         | Interactive component such as a confirmation |
+| form           | A collection of user input                   |
+| input          | User input field                             |
+| audio          | Audio content                                |
+| video          | Video content                                |
+| svg            | Scalable vector graphic content              |
+| iframe         | Inline frame of another HTML page            |
+-  common attributes
+| Attribute |                                       Meaning                                       |
+|:---------:|:-----------------------------------------------------------------------------------:|
+| name      | The name of the input. This is submitted as the name of the input if used in a form |
+| disabled  | Disables the ability for the user to interact with the input                        |
+| value     | The initial value of the input                                                      |
+| required  | Signifies that a value is required in order to be valid                             |
+| url       | URL address                                                                         |
+- pattern attribute for text, search, url, tel, email and password inputs. Provides regular expression that must match for input ot be valid
+## Media
+- includes img, audio, video, (references to external file) svg, and canvas (contain code to renver visual image).
+- External Media - take URL as attribute
+    - relative path - file served from same location as HTML page
+    - full path - includes protocol, domain name, and path to file
+- Image - put url in src attribute
+- Audio - controls if you want usesr to control, autoplay, loop
+- Video - same as audio (may need crossorigin = "anonymous" if requesting files from different domain)
+- SVG (Scalable Vector Graphics) - widely supported, render graphics inline
+- Canvas - facilitates 2D drawing. Requires JS support
