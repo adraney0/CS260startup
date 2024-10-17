@@ -354,3 +354,14 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 - Video - same as audio (may need crossorigin = "anonymous" if requesting files from different domain)
 - SVG (Scalable Vector Graphics) - widely supported, render graphics inline
 - Canvas - facilitates 2D drawing. Requires JS support
+
+# CSS
+## Introduction
+- Cascading Style Sheets - converts structure and content of HTML into Experience
+- animate the page, deploy custom fonts, respond to user actions, dynamically alter page layout
+- rule: comprised of selector, declarations, property, and property-value
+![Alt text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/css/introduction/cssDefinitions.jpg)
+# JavaScript
+## Promises
+- async - allows a function to return a Promise
+- await - pauses execution until the Promise is settled
