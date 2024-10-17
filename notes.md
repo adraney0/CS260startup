@@ -387,17 +387,21 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 - padding - inherits things like background color
 - border - color, thickness, line style
 - margin - external, whitespace
+
 ![Alt text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/css/introduction/cssBoxModel.jpg)
+
 ## Selectors
 - \* - use to select all elements
 - element selector - name of element tag
 - Combinators - indicate relationships between Selectors
+
 |    Combinator    |           Meaning          |    Example   |                 Description                |
 |:----------------:|:--------------------------:|:------------:|:------------------------------------------:|
 | Descendant       | A list of descendants      | body section | Any section that is a descendant of a body |
 | Child            | A list of direct children  | section > p  | Any p that is a direct child of a section  |
 | General sibling  | A list of siblings         | div ~ p      | Any p that has a div sibling               |
 | Adjacent sibling | A list of adjacent sibling | div + p      | Any p that has an adjacent div sibling     |
+
 - class selector (.) - use to select classes. Can combine element name with classes (select all paragraphs of summary class)
 ```
 p.summary {
@@ -419,6 +423,7 @@ section:hover {
 ```
 ## Declarations
 - specificy a property and value to assign
+
 |      Property      |                Value               |      Example      |                                   Discussion                                   |
 |:------------------:|:----------------------------------:|:-----------------:|:------------------------------------------------------------------------------:|
 | background-color   | color                              | red               | Fill the background color                                                      |
@@ -449,7 +454,9 @@ section:hover {
 | transform          | transform-function                 | rotate(0.5turn)   | Applies a transformation to the element                                        |
 | width              | unit                               | 25vmin            | Sets the width of the box                                                      |
 | z-index            | number                             | 100               | Controls the positioning of the element on the z axis                          |
+
 ### - Units
+
 | Unit |                           Description                          |
 |:----:|:--------------------------------------------------------------:|
 | px   | The number of pixels                                           |
@@ -464,13 +471,16 @@ section:hover {
 | vh   | A percentage of the viewport's height                          |
 | vmin | A percentage of the viewport's smaller dimension               |
 | vmax | A percentage of the viewport's larger dimension                |
+
 ### Color
+
 |    Method    |         Example         |                                                                                                    Description                                                                                                    |
 |:------------:|:-----------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | keyword      | red                     | A set of predefined colors (e.g. white, cornflowerblue, darkslateblue)                                                                                                                                            |
 | RGB hex      | #00FFAA22or #0FA2       | Red, green, and blue as a hexadecimal number, with an optional alpha opacity                                                                                                                                      |
 | RGB function | rgb(128, 255, 128, 0.5) | Red, green, and blue as a percentage or number between 0 and 255, with an optional alpha opacity percentage                                                                                                       |
 | HSL          | hsl(180, 30%, 90%, 0.5) | Hue, saturation, and light, with an optional opacity percentage. Hue is the position on the 365 degree color wheel (red is 0 and 255). Saturation is how gray the color is, and light is how bright the color is. |
+
 ## Fonts
 - change using font-family property. Can use list ensuring some font is always available (tries first font first)
 - serif - extra strokes on end
@@ -499,6 +509,7 @@ p {
 ```
 ## Animation
 - create using animation properties and defining keyframe
+
 | Value                     | Description                                                                         |
 |---------------------------|-------------------------------------------------------------------------------------|
 | animation-name            | Specifies the name of the keyframe you want to bind to the selector                 |
