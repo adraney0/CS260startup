@@ -360,10 +360,11 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 - Cascading Style Sheets - converts structure and content of HTML into Experience
 - animate the page, deploy custom fonts, respond to user actions, dynamically alter page layout
 - rule: comprised of selector, declarations, property, and property-value
+- rules cascade from highest nodes of DOM to lowest. Lower declarations override higher
 ![Alt text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/css/introduction/cssDefinitions.jpg)
 ### Associating CSS with HTML
 1. style attribute of element
-`<p style="color:green">CSS</p>`
+```<p style="color:green">CSS</p>```
 2. style element in head
 ```
 <head>
@@ -378,8 +379,156 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 </body>
 ```
 3. link element for stylesheet
-`<link rel="stylesheet" href="styles.css" />`
+```<link rel="stylesheet" href="styles.css" />```
 
+### The Box Model
+- everything in CSS is defined as bozes
+- content - text/image is displayed
+- padding - inherits things like background color
+- border - color, thickness, line style
+- margin - external, whitespace
+![Alt text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/css/introduction/cssBoxModel.jpg)
+## Selectors
+- \* - use to select all elements
+- element selector - name of element tag
+- Combinators - indicate relationships between Selectors
+|    Combinator    |           Meaning          |    Example   |                 Description                |
+|:----------------:|:--------------------------:|:------------:|:------------------------------------------:|
+| Descendant       | A list of descendants      | body section | Any section that is a descendant of a body |
+| Child            | A list of direct children  | section > p  | Any p that is a direct child of a section  |
+| General sibling  | A list of siblings         | div ~ p      | Any p that has a div sibling               |
+| Adjacent sibling | A list of adjacent sibling | div + p      | Any p that has an adjacent div sibling     |
+- class selector (.) - use to select classes. Can combine element name with classes (select all paragraphs of summary class)
+```
+p.summary {
+  font-weight: bold;
+}
+```
+- ID selector (#)
+- attribute selector - element[selector = attribute]
+```
+p[class='summary'] {
+  color: red;
+}
+```
+- pseudo selector - select based on positional relationships (mouse interactions, hyperlink visitation states)
+```
+section:hover {
+  border-left: solid 1em purple;
+}
+```
+## Declarations
+- specificy a property and value to assign
+|      Property      |                Value               |      Example      |                                   Discussion                                   |
+|:------------------:|:----------------------------------:|:-----------------:|:------------------------------------------------------------------------------:|
+| background-color   | color                              | red               | Fill the background color                                                      |
+| border             | color width style                  | #fad solid medium | Sets the border using shorthand where any or all of the values may be provided |
+| border-radius      | unit                               | 50%               | The size of the border radius                                                  |
+| box-shadow         | x-offset y-offset blu-radius color | 2px 2px 2px gray  | Creates a shadow                                                               |
+| columns            | number                             | 3                 | Number of textual columns                                                      |
+| column-rule        | color width style                  | solid thin black  | Sets the border used between columns using border shorthand                    |
+| color              | color                              | rgb(128, 0, 0)    | Sets the text color                                                            |
+| cursor             | type                               | grab              | Sets the cursor to display when hovering over the element                      |
+| display            | type                               | none              | Defines how to display the element and its children                            |
+| filter             | filter-function                    | grayscale(30%)    | Applies a visual filter                                                        |
+| float              | direction                          | right             | Places the element to the left or right in the flow                            |
+| flex               |                                    |                   | Flex layout. Used for responsive design                                        |
+| font               | family size style                  | Arial 1.2em bold  | Defines the text font using shorthand                                          |
+| grid               |                                    |                   | Grid layout. Used for responsive design                                        |
+| height             | unit                               | .25em             | Sets the height of the box                                                     |
+| margin             | unit                               | 5px 5px 0 0       | Sets the margin spacing                                                        |
+| max-[width/height] | unit                               | 20%               | Restricts the width or height to no more than the unit                         |
+| min-[width/height] | unit                               | 10vh              | Restricts the width or height to no less than the unit                         |
+| opacity            | number                             | .9                | Sets how opaque the element is                                                 |
+| overflow           | [visible/hidden/scroll/auto]       | scroll            | Defines what happens when the content does not fix in its box                  |
+| position           | [static/relative/absolute/sticky]  | absolute          | Defines how the element is positioned in the document                          |
+| padding            | unit                               | 1em 2em           | Sets the padding spacing                                                       |
+| left               | unit                               | 10rem             | The horizontal value of a positioned element                                   |
+| text-align         | [start/end/center/justify]         | end               | Defines how the text is aligned in the element                                 |
+| top                | unit                               | 50px              | The vertical value of a positioned element                                     |
+| transform          | transform-function                 | rotate(0.5turn)   | Applies a transformation to the element                                        |
+| width              | unit                               | 25vmin            | Sets the width of the box                                                      |
+| z-index            | number                             | 100               | Controls the positioning of the element on the z axis                          |
+### - Units
+| Unit |                           Description                          |
+|:----:|:--------------------------------------------------------------:|
+| px   | The number of pixels                                           |
+| pt   | The number of points (1/72 of an inch)                         |
+| in   | The number of inches                                           |
+| cm   | The number of centimeters                                      |
+| %    | A percentage of the parent element                             |
+| em   | A multiplier of the width of the letter m in the parent's font |
+| rem  | A multiplier of the width of the letter m in the root's font   |
+| ex   | A multiplier of the height of the element's font               |
+| vw   | A percentage of the viewport's width                           |
+| vh   | A percentage of the viewport's height                          |
+| vmin | A percentage of the viewport's smaller dimension               |
+| vmax | A percentage of the viewport's larger dimension                |
+### Color
+|    Method    |         Example         |                                                                                                    Description                                                                                                    |
+|:------------:|:-----------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| keyword      | red                     | A set of predefined colors (e.g. white, cornflowerblue, darkslateblue)                                                                                                                                            |
+| RGB hex      | #00FFAA22or #0FA2       | Red, green, and blue as a hexadecimal number, with an optional alpha opacity                                                                                                                                      |
+| RGB function | rgb(128, 255, 128, 0.5) | Red, green, and blue as a percentage or number between 0 and 255, with an optional alpha opacity percentage                                                                                                       |
+| HSL          | hsl(180, 30%, 90%, 0.5) | Hue, saturation, and light, with an optional opacity percentage. Hue is the position on the 365 degree color wheel (red is 0 and 255). Saturation is how gray the color is, and light is how bright the color is. |
+## Fonts
+- change using font-family property. Can use list ensuring some font is always available (tries first font first)
+- serif - extra strokes on end
+- sand-serif - no extra strokes
+- fized - characters are all same size
+- symbol - non-language characters (arrow/emoji)
+### Importing Fonts
+- have browser load a font
+```
+@font-face {
+  font-family: 'Quicksand';
+  src: url('https://cs260.click/fonts/quicksand.ttf');
+}
+
+p {
+  font-family: Quicksand;
+}
+```
+- don't want to host font files on server... load from provider (Google)
+```
+@import url('https://fonts.googleapis.com/css2?family=Rubik Microbe&display=swap');
+
+p {
+  font-family: 'Rubik Microbe';
+}
+```
+## Animation
+- create using animation properties and defining keyframe
+| Value                     | Description                                                                         |
+|---------------------------|-------------------------------------------------------------------------------------|
+| animation-name            | Specifies the name of the keyframe you want to bind to the selector                 |
+| animation-duration        | Specifies how many seconds or milliseconds an animation takes to complete           |
+| animation-timing-function | Specifies the speed curve of the animation                                          |
+| animation-delay           | Specifies a delay before the animation will start                                   |
+| animation-iteration-count | Specifies how many times an animation should be played                              |
+| animation-direction       | Specifies whether or not the animation should play in reverse on alternate cycles   |
+| animation-fill-mode       | Specifies what values are applied by the animation outside the time it is executing |
+| animation-play-state      | Specifies whether the animation is running or paused                                |
+| initial                   | Sets this property to its default value.                                            |
+| inherit                   | Inherits this property from its parent element                                      |
+```
+p {
+  text-align: center;
+  font-size: 20vh;
+
+  animation-name: demo;
+  animation-duration: 3s;
+}
+@keyframes demo {
+  from {
+    font-size: 0vh;
+  }
+
+  to {
+    font-size: 20vh;
+  }
+}
+```
 
 # JavaScript
 ## Promises
