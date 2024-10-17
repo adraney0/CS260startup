@@ -361,6 +361,26 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 - animate the page, deploy custom fonts, respond to user actions, dynamically alter page layout
 - rule: comprised of selector, declarations, property, and property-value
 ![Alt text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/css/introduction/cssDefinitions.jpg)
+### Associating CSS with HTML
+1. style attribute of element
+`<p style="color:green">CSS</p>`
+2. style element in head
+```
+<head>
+  <style>
+    p {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <p>CSS</p>
+</body>
+```
+3. link element for stylesheet
+`<link rel="stylesheet" href="styles.css" />`
+
+
 # JavaScript
 ## Promises
 - async - allows a function to return a Promise
