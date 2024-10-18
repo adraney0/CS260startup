@@ -389,7 +389,6 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 - margin - external, whitespace
 
 ![Alt text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/css/introduction/cssBoxModel.jpg)
-
 ## Selectors
 - \* - use to select all elements
 - element selector - name of element tag
@@ -480,7 +479,6 @@ section:hover {
 | RGB hex      | #00FFAA22or #0FA2       | Red, green, and blue as a hexadecimal number, with an optional alpha opacity                                                                                                                                      |
 | RGB function | rgb(128, 255, 128, 0.5) | Red, green, and blue as a percentage or number between 0 and 255, with an optional alpha opacity percentage                                                                                                       |
 | HSL          | hsl(180, 30%, 90%, 0.5) | Hue, saturation, and light, with an optional opacity percentage. Hue is the position on the 365 degree color wheel (red is 0 and 255). Saturation is how gray the color is, and light is how bright the color is. |
-
 ## Fonts
 - change using font-family property. Can use list ensuring some font is always available (tries first font first)
 - serif - extra strokes on end
@@ -540,6 +538,76 @@ p {
   }
 }
 ```
+## Responsive Design
+- ability to reconfigure interface so application accommodates and takes advantage of screen orientation/size
+### Display
+- display property allows you to change how element is displayed
+
+|  Value |                                                          Meaning                                                         |
+|:------:|:------------------------------------------------------------------------------------------------------------------------:|
+| none   | Don't display this element. The element still exists, but the browser will not render it.                                |
+| block  | Display this element with a width that fills its parent element. A p or divelement has block display by default.         |
+| inline | Display this element with a width that is only as big as its content. A b or span element has inline display by default. |
+| flex   | Display this element's children in a flexible orientation.                                                               |
+| grid   | Display this element's children in a grid orientation.                                                                   |
+
+### Viewport Meta Tag
+- tells browser not to scale page
+``` <meta name="viewport" content="width=device-width,initial-scale=1" /> ```
+### Float 
+- moves element to left/right of container element. 
+- Allows inline elements to wrap around
+- text flows around element when window is resized
+
+### Media Queries
+- @media selector - detects size and orientation of device and applies CSS
+- for example, orientation: portrait and change something
+## Grid
+- use display:grid
+- grid-template-columns: specifies layout of grid columns
+## Flexbox
+- use to partition application into areas that responsively move as window size/orientation changes
+- must set parent element to flex
+
+| Property        | Description                                                                                                                             |
+|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| align-content   | Modifies the behavior of the flex-wrap property. It is similar to align-items, but instead of aligning flex items, it aligns flex lines |
+| align-items     | Vertically aligns the flex items when the items do not use all available space on the cross-axis                                        |
+| display         | Specifies the type of box used for an HTML element                                                                                      |
+| flex-direction  | Specifies the direction of the flexible items inside a flex container                                                                   |
+| flex-flow       | A shorthand property for flex-direction and flex-wrap                                                                                   |
+| flex-wrap       | Specifies whether the flex items should wrap or not, if there is not enough room for them on one flex line                              |
+| justify-content | Horizontally aligns the flex items when the items do not use all available space on the main-axis                                       |
+## Frameworks
+- provide functions and components that commonly appear in web applications
+- same patterns that were used were put into code package
+- decrease development time, common user experience
+- tailwind - on the rise, smaller definitions to individual elements (in HTML)
+- bootstrap - most popular
+- using bootstrap:
+```
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    ...
+  </body>
+</html>
+```
+## Debugging
+- inspect
+- you can change things in the debugger, allows you to find what works best without having to change things in file and refresh
+
+
+
 
 # JavaScript
 ## Promises
