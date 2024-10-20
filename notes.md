@@ -610,6 +610,668 @@ p {
 
 
 # JavaScript
+## Introduction
+- weakly typed
+- based on concepts of C, Java, and Scheme
+- most used programming language
+- usually executed using interpreter at runtime instead of compiling it into machine specific binary at build time
+- console.log() - outputs contents to the console
+Example function:
+```
+function join(a, b) {
+  return a + ' ' + b;
+}
+
+console.log(join('Hello', 'world'));
+// OUTPUT: Hello world
+```
+## Console
+- provides interaction with runtime debugger console
+- outputting value of text and objects, running timers, counting interactions
+- console.log - output message, can specify css
+```
+console.log('%c JavaScript Demo', 'font-size:1.5em; color:green;');
+// OUTPUT: JavaScript Demo //in large green text
+```
+- timer - wrap with `time` and `timeEnd` calls
+```
+console.time('demo time');
+// ... some code that takes a long time.
+console.timeEnd('demo time');
+// OUTPUT: demo time: 9762.74 ms
+```
+- count - count # of times code is called
+```
+console.count('a');
+// OUTPUT: a: 1
+console.count('a');
+// OUTPUT: a: 2
+console.count('b');
+// OUTPUT: b: 1
+```
+## Adding to HTML
+- directly in HTML, script element, src attribute of script element to external file
+```
+<head>
+  <script src="javascript.js"></script>
+</head>
+<body>
+  <button onclick="sayHello()">Say Hello</button>
+  <button onclick="sayGoodbye()">Say Goodbye</button>
+  <button onclick="let i=1;i++;console.log(i)">press me</button>
+  <!-- OUTPUT: 2 -->
+  <script>
+    function sayGoodbye() {
+      alert('Goodbye');
+    }
+  </script>
+</body>
+```
+- `onclick` - creates event listener for DOM event and can call code contained in attribute's value
+## Types, Operators, Conditionals, and Loops
+- let - allows you to change value of variable
+- const - error if you try to change value
+```
+let x = 1;
+
+const y = 2;
+```
+- originally used var, don't use, hard to detect errors
+### Types
+Primitive Types
+
+|    Type   |                           Meaning                          |
+|:---------:|:----------------------------------------------------------:|
+| Null      | The type of a variable that has not been assigned a value. |
+| Undefined | The type of a variable that has not been defined.          |
+| Boolean   | true or false.                                             |
+| Number    | A 64-bit signed number.                                    |
+| BigInt    | A number of arbitrary magnitude.                           |
+| String    | A textual sequence of characters.                          |
+| Symbol    | A unique value.                                            |
+
+- JS doesn't enforce declaration before use of variable
+Object Types
+
+|   Type   |                                           Use                                          |         Example        |
+|:--------:|:--------------------------------------------------------------------------------------:|:----------------------:|
+| Object   | A collection of properties represented by name-value pairs. Values can be of any type. | {a:3, b:'fish'}        |
+| Function | An object that has the ability to be called.                                           | function a() {}        |
+| Date     | Calendar dates and times.                                                              | new Date('1995-12-17') |
+| Array    | An ordered sequence of any type.                                                       | [3, 'fish']            |
+| Map      | A collection of key-value pairs that support efficient lookups.                        | new Map()              |
+| JSON     | A lightweight data-interchange format used to share information across programs.       | {"a":3, "b":"fish"}    |
+
+- When dealing with a number variable, JavaScript supports standard mathematical operators like + (add), - (subtract), * (multiply), / (divide), and === (equality). For string variables, JavaScript supports + (concatenation) and === (equality).
+- weakly typed language - changes with variable, automatic conversions in certain circumstances
+- use strict equalitys (=== or !==) not (==)
+### Conditionals
+- supports `if`, `else`, and `if else`.
+- ternary operator: condition ? ifTrue : ifFalse
+- Falsy expressions: false, null, NaN, 0, "", Undefined
+### Loops
+- do while - do while something is true. Executes block at least once before checking condition
+```
+let i = 0;
+do {
+  console.log(i);
+  i++;
+} while (i < 2);
+// OUTPUT: 0 1
+```
+- while - checks condition before executing block of code. If code is false initially, code inside doesnt execute at all
+```
+let i = 0;
+while (i < 2) {
+  console.log(i);
+  i++;
+}
+// OUTPUT: 0 1
+```
+- for in - iterates over an objects property names
+```
+const obj = { a: 1, b: 'fish' };
+for (const name in obj) {
+  console.log(name);
+}
+// OUTPUT: a
+// OUTPUT: b
+```
+- for of - iterates over an objects property values
+```
+const arr = ['a', 'b'];
+for (const val of arr) {
+  console.log(val);
+}
+// OUTPUT: 'a'
+// OUTPUT: 'b'
+```
+## String
+- strings are a primitive type - use single quotes, double quotes, or backticks
+- backticks - string literal that may contain JS and evaluated in place
+- ${} stuff inside curly braces is evaluated as JS
+```
+'quoted text'; // " also works
+
+const l = 'literal';
+console.log(`string ${l + (1 + 1)} text`);
+// OUTPUT: string literal2 text
+```
+|    Function   |                            Meaning                           |
+|:-------------:|:------------------------------------------------------------:|
+| length        | The number of characters in the string                       |
+| indexOf()     | The starting index of a given substring                      |
+| split()       | Split the string into an array on the given delimiter string |
+| startsWith()  | True if the string has a given prefix                        |
+| endsWith()    | True if the string has a given suffix                        |
+| toLowerCase() | Converts all characters to lowercase                         |
+
+## Functions
+- class objects - can be assigned name, passed as a parameter, returned as result, referenced from an object/array
+- no type declarations, type is inferred by assignment of value to parameter
+```
+function hello(who) {
+  return 'hello ' + who;
+}
+
+console.log(hello('world'));
+// OUTPUT: hello world
+```
+### parameters
+- if not provided, value is undefined when function Executes
+- default value - assign value to parameter in function declaration
+```
+function labeler(value, title = 'title') {
+  console.log(`${title}=${value}`);
+}
+
+labeler();
+// OUTPUT: title=undefined
+
+labeler('fish');
+// OUTPUT: title=fish
+
+labeler('fish', 'animal');
+// OUTPUT: animal=fish
+```
+### Anonymous Functions
+- usually assigned to a variale to be passed as parameter to another function/stored
+```
+// Function that takes a function as a parameter
+function doMath(operation, a, b) {
+  return operation(a, b);
+}
+
+// Anonymous function assigned to a variable
+const add = function (a, b) {
+  return a + b;
+};
+
+console.log(doMath(add, 5, 3));
+// OUTPUT: 8
+
+// Anonymous function assigned to a parameter
+console.log(
+  doMath(
+    function (a, b) {
+      return a - b;
+    },
+    5,
+    3
+  )
+);
+// OUTPUT: 2
+```
+- you can declare functions inside other functions
+## Arrow Functions
+- replaces need for function keyword with symbols ` => ` placed after prameter declaration. Curly braces optional
+- Arrow function, no parameters, always returns 3: `() => 3;`
+- can't be used for constructors or iterator generators
+### Return Values
+- no curly braces with single expression: returns result of expression
+- curly braces - normal function
+```
+() => 3;
+// RETURNS: 3
+
+() => {
+  3;
+};
+// RETURNS: undefined
+
+() => {
+  return 3;
+};
+// RETURNS: 3
+```
+### This Pointer
+- inherit this pointer from scope in which they're created. Creates closure
+- closure - allows function to continue referencing its creation scope even when its passed out
+## Arrays
+- sequence of other objects and primitives
+- zero based index
+
+### Functions
+
+| Function |                          Meaning                          |           Example           |
+|:--------:|:---------------------------------------------------------:|:---------------------------:|
+| push     | Add an item to the end of the array                       | a.push(4)                   |
+| pop      | Remove an item from the end of the array                  | x = a.pop()                 |
+| slice    | Return a sub-array                                        | a.slice(1,-1)               |
+| sort     | Run a function to sort an array in place                  | a.sort((a,b) => b-a)        |
+| values   | Creates an iterator for use with a for ofloop             | for (i of a.values()) {...} |
+| find     | Find the first item satisfied by a test function          | a.find(i => i < 2)          |
+| forEach  | Run a function on each array item                         | a.forEach(console.log)      |
+| reduce   | Run a function to reduce each array item to a single item | a.reduce((a, c) => a + c)   |
+| map      | Run a function to map an array to a new array             | a.map(i => i+i)             |
+| filter   | Run a function to remove items                            | a.filter(i => i%2)          |
+| every    | Run a function to test if all items match                 | a.every(i => i < 3)         |
+| some     | Run a function to test if any items match                 | a.some(i => i < 1)          |
+
+| Flag | Description                                                                                   | Corresponding property |
+|------|-----------------------------------------------------------------------------------------------|------------------------|
+| d    | Generate indices for substring matches.                                                       | hasIndices             |
+| g    | Global search.                                                                                | global                 |
+| i    | Case-insensitive search.                                                                      | ignoreCase             |
+| m    | Allows ^ and $ to match next to newline characters.                                           | multiline              |
+| s    | Allows . to match newline characters.                                                         | dotAll                 |
+| u    | "Unicode"; treat a pattern as a sequence of Unicode code points.                              | unicode                |
+| v    | An upgrade to the u mode with more Unicode features.                                          | unicodeSets            |
+| y    | Perform a "sticky" search that matches starting at the current position in the target string. | sticky                 |
+## JSON
+- JavaScript Object Notation
+- simple but effective way to share and store data
+
+|   Type  |         Example         |
+|:-------:|:-----------------------:|
+| string  | "crockford"             |
+| number  | 42                      |
+| boolean | true                    |
+| array   | `[null,42,"crockford"]`   |
+| object  | {"a":1,"b":"crockford"} |
+| null    | null                    |
+
+- JSON docs commonly contain objects with zero/more key value pairs
+    - key is always a string
+    - value must be valid data type
+```
+{
+  "class": {
+    "title": "web programming",
+    "description": "Amazing"
+  },
+  "enrollment": ["Marco", "Jana", "فَاطِمَة"],
+  "start": "2025-02-01",
+  "end": null
+}
+```
+- convert using parse and stringify
+```
+const obj = { a: 2, b: 'crockford', c: undefined };
+const json = JSON.stringify(obj);
+const objFromJson = JSON.parse(json);
+
+console.log(obj, json, objFromJson);
+
+// OUTPUT:
+// {a: 2, b: 'crockford', c: undefined}
+// {"a":2, "b":"crockford"}
+// {a: 2, b: 'crockford'}
+```
+## Objects and classes
+- represente collection of name-value paris (proeprties)
+- property name - string/symbol
+- value - any type
+- create using new operator calling constructor
+- The properties of an object can be referenced either with dot ('obj.prop') or bracket notation ('obj['prop']').
+```
+const obj = new Object({ a: 3 });
+obj['b'] = 'fish';
+obj.c = [1, 2, 3];
+obj.hello = function () {
+  console.log('hello');
+};
+
+console.log(obj);
+// OUTPUT: {a: 3, b: 'fish', c: [1,2,3], hello: func}
+```
+- object-literal - provide initial content
+```
+const obj = {
+  a: 3,
+  b: 'fish',
+};
+```
+### Functions
+
+| Function |               Meaning               |
+|:--------:|:-----------------------------------:|
+| entries  | Returns an array of key value pairs |
+| keys     | Returns an array of keys            |
+| values   | Returns an array of values          |
+
+```
+const obj = {
+  a: 3,
+  b: 'fish',
+};
+
+console.log(Object.entries(obj));
+// OUTPUT: [['a', 3], ['b', 'fish']]
+console.log(Object.keys(obj));
+// OUTPUT: ['a', 'b']
+console.log(Object.values(obj));
+// OUTPUT: [3, 'fish']
+```
+### Constructors
+- constructor - any function that returns an aboject. Can be invoked with new operator
+```
+function Person(name) {
+  return {
+    name: name,
+  };
+}
+
+const p = new Person('Eich');
+console.log(p);
+// OUTPUT: {name: 'Eich'}
+```
+### classes
+- can use to define objects
+- reusable component
+```
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  log() {
+    console.log('My name is ' + this.name);
+  }
+}
+
+const p = new Person('Eich');
+p.log();
+// OUTPUT: My name is Eich
+```
+- can make private properties and functions by using `#`
+### Inheritance
+- extend keyword
+- pass parameters to parent using super function
+- child functions with same name override parent
+## Regular Expressions
+- textual pattern matchers
+- use to find text in a string
+- create using class constructor/refularexpression literal
+```
+const objRegex = new RegExp('ab*', 'i');
+const literalRegex = /ab*/i;
+```
+- pattern enclosed by slashes
+
+| Method       | Description                                                                                                      |
+|--------------|------------------------------------------------------------------------------------------------------------------|
+| exec()       | Executes a search for a match in a string. It returns an array of information or null on a mismatch.             |
+| test()       | Tests for a match in a string. It returns true or false.                                                         |
+| match()      | Returns an array containing all of the matches, including capturing groups, or null if no match is found.        |
+| matchAll()   | Returns an iterator containing all of the matches, including capturing groups.                                   |
+| search()     | Tests for a match in a string. It returns the index of the match, or -1 if the search fails.                     |
+| replace()    | Executes a search for a match in a string, and replaces the matched substring with a replacement substring.      |
+| replaceAll() | Executes a search for all matches in a string, and replaces the matched substrings with a replacement substring. |
+| split()      | Uses a regular expression or a fixed string to break a string into an array of substrings.                       |
+
+| Flag | Description                                                                                   | Corresponding property |
+|------|-----------------------------------------------------------------------------------------------|------------------------|
+| d    | Generate indices for substring matches.                                                       | hasIndices             |
+| g    | Global search.                                                                                | global                 |
+| i    | Case-insensitive search.                                                                      | ignoreCase             |
+| m    | Allows ^ and $ to match next to newline characters.                                           | multiline              |
+| s    | Allows . to match newline characters.                                                         | dotAll                 |
+| u    | "Unicode"; treat a pattern as a sequence of Unicode code points.                              | unicode                |
+| v    | An upgrade to the u mode with more Unicode features.                                          | unicodeSets            |
+| y    | Perform a "sticky" search that matches starting at the current position in the target string. | sticky                 |
+
+
+## Rest and Spread
+### Rest
+- use ...
+- last parameter, turns into array
+- can call with any number of parameters and it turns them into an array
+```
+function hasNumber(test, ...numbers) {
+  return numbers.some((i) => i === test);
+}
+
+hasNumber(2, 1, 2, 3);
+// RETURNS: true
+```
+### Spread
+- does the opposite of rest. 
+- takes iterable object and expands it into parameters
+```
+function person(firstName, lastName) {
+  return { first: firstName, last: lastName };
+}
+
+const p = person(...['Ryan', 'Dahl']);
+console.log(p);
+// OUTPUT: {first: 'Ryan', last: 'Dahl'}
+```
+## Exceptions
+- triggered when: code gernerates exception with throw keyword or at runtime (ex: undefined variable)
+- to catch, wrap code in try block and use catch block.
+- finally always called whenever try block is exited
+```
+try {
+  // normal execution code
+} catch (err) {
+  // exception handling code
+} finally {
+  // always called code
+}
+```
+- only use for real Exceptions
+- fallback - normal implementation in try, fallback in catch
+```
+function getScores() {
+  try {
+    const scores = scoringService.getScores();
+    // store the scores so that we can use them later if the network is not available
+    window.localStorage.setItem('scores', scores);
+    return scores;
+  } catch {
+    return window.localStorage.getItem('scores');
+  }
+}
+```
+## Destructuring
+- pulling individual terms out of an existing one
+```
+const a = [1, 2, 4, 5];
+
+// destructure the first two items from a, into the new variables b and c
+const [b, c] = a;
+
+console.log(b, c);
+// OUTPUT: 1, 2
+```
+- combine multiple items from original object using rest syntax
+```
+const [b, c, ...others] = a;
+
+console.log(b, c, others);
+// OUTPUT: 1, 2, [4,5]
+```
+- Destructuring arrays: specify properties you want to pull
+```
+const o = { a: 1, b: 'animals', c: ['fish', 'cats'] };
+
+const { a, c } = o;
+
+console.log(a, c);
+// OUTPUT 1, ['fish', 'cats']
+```
+- can map names to new variables
+```
+const o = { a: 1, b: 'animals', c: ['fish', 'cats'] };
+
+const { a: count, b: type } = o;
+
+console.log(count, type);
+// OUTPUT 1, animals
+```
+## Scope
+1. Global - Visible to all code
+2. Module - Visible to all code running in a module
+3. Function - Visible within a function
+4. Block - Visible within a block of code delimited by curly braces
+- var ignores block scope
+- this - represents variable pointing to an object that contains context within scope of currently executing line of code
+    - global - this is referenced outside function/object. globalThis, context for runtime environment (browser's window object)
+    - function - referenced inside function. Object that owns function
+        - when in strict omde - global function's this variable is undefiened
+    - object - refers to object
+```
+'use strict';
+
+// global scope
+console.log('global:', this);
+console.log('globalThis:', globalThis);
+
+// function scope for a global function
+function globalFunc() {
+  console.log('globalFunctionThis:', this);
+}
+globalFunc();
+
+// object scope
+class ScopeTest {
+  constructor() {
+    console.log('objectThis:', this);
+  }
+
+  // function scope for an object function
+  objectFunc() {
+    console.log('objectFunctionThis:', this);
+  }
+}
+
+new ScopeTest().objectFunc();
+```
+Result:
+```
+global: Window
+globalThis: Window
+globalFunctionThis: undefined
+objectThis: ScopeTest
+objectFunctionThis: ScopeTest
+```
+### closure
+- function and its surrounding state
+- whatever variables are accessible when function is created are availbale inside function
+- arrow functions inherit the this pointer
+## Modules
+- allow for partitioning and sharing of code
+- create a file-based scope for code they represente
+- must explicitly export/import
+- can only be called from other Modules
+- to use in HTML: include type attribute in script element
+```
+<script type="module">
+  import { alertDisplay } from './alert.js';
+  alertDisplay('module loaded');
+</script>
+```
+## DOM
+- object representation of HTML elements that browser uses to render display
+- browser access to DOM through document
+```
+> document
+
+<html lang="en">
+  <body>
+    <p>text1 <span>text2</span></p>
+    <p>text3</p>
+  </body>
+</html>
+```
+- everythin in HTML has node in DOM
+![Alt text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/javascript/dom/dom.jpg)
+- querySelectorAll - CSS selector to select elements
+- textContent - all of element's text
+- innerHTML - textual representation of HTML
+- DOM supports ability to insert, modify/delete elements
+- Creating new element:
+    1. create element on DOM
+    2. insert into tree by appending
+```
+function insertChild(parentSelector, text) {
+  const newChild = document.createElement('div');
+  newChild.textContent = text;
+
+  const parentElement = document.querySelector(parentSelector);
+  parentElement.appendChild(newChild);
+}
+
+insertChild('#courses', 'new course');
+```
+- delte calling removeChild function on parent element
+- inject using innherHTML - common attack vector for hackers
+    - ensure it can't be manipulated by user if injectiong
+- all DOM elements support ability to attach function that gets called when event occurs (Event listener)
+```
+const submitDataEl = document.querySelector('#submitData');
+submitDataEl.addEventListener('click', function (event) {
+  console.log(event.type);
+});
+```
+- can add directly into HTML `<button onclick='alert("clicked")'>click me</button>`
+
+| Event Category |      Description      |
+|:--------------:|:---------------------:|
+| Clipboard      | Cut, copied, pasted   |
+| Focus          | An element gets focus |
+| Keyboard       | Keys are pressed      |
+| Mouse          | Click events          |
+| Text selection | When text is selected |
+
+
+## Local Storage
+- provides ability to persistently store and retrieve data on user's browser across sessions and HTML renderings
+- Ex: frontend JS stores user's name, retrieve later when different page is loaded
+- used as cache for when data can't be obtained from server
+- must be of stype string, number or boolean, if not use JSON
+### Functions
+|       Function       |                    Meaning                   |
+|:--------------------:|:--------------------------------------------:|
+| setItem(name, value) | Sets a named item's value into local storage |
+| getItem(name)        | Gets a named item's value from local storage |
+| removeItem(name)     | Removes a named item from local storage      |
+| clear()              | Clears all items in local storage            |
+
 ## Promises
+- allows main rendering thread to continue while some action is executed in background
+- create using Promise object constructor and passing it an executor function
+- 3 States:
+    1. pending - Currently running asynchronously
+    2. fulfilled - Completed successfully
+    3. rejected - Failed to complete
+- promise executor functions takes 2 functions as parameters, resolve (sets promise to fulfilled) and reject (sets promise to rejected)
+```
+const coinToss = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    if (Math.random() > 0.5) {
+      resolve('success');
+    } else {
+      reject('error');
+    }
+  }, 10000);
+});
+```
+- to do something with the result, use then, catch, finally
+## Async/Await
 - async - allows a function to return a Promise
 - await - pauses execution until the Promise is settled
+    - can't call unless at top level of JS, or in a function defined with async keyword
+- uses try/catch block
+
