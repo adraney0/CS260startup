@@ -140,6 +140,76 @@ https://webprogramming260.click
     - | - Take the output from the command on the left and pipe, or pass, it to the command on the right
     - CTRL-R - Use type ahead to find previous commands
     - CTRL-C - Kill the currently running command
+# Common Linux/Unix Console Commands
+
+## `chmod` (Change Mode):
+- Modifies file or directory permissions.
+- Example: `chmod 755 file.txt` grants the owner read, write, and execute permissions, and grants read and execute permissions to group and others.
+
+## `pwd` (Print Working Directory):
+- Displays the current directory you're working in.
+- Example: Typing `pwd` might return `/home/user`.
+
+## `cd` (Change Directory):
+- Navigates to a different directory.
+- Example: `cd /home/user/Documents` moves you to the Documents folder.
+
+## `ls` (List):
+- Lists files and directories in the current directory.
+- Example: `ls -l` lists files with detailed information, such as permissions, owner, size, and modification date.
+
+## `vim` (Vim Text Editor):
+- Opens the Vim text editor, a powerful text editing tool used via the terminal.
+- Example: `vim file.txt` opens `file.txt` in Vim for editing.
+
+## `nano` (Nano Text Editor):
+- Opens the Nano text editor, which is simpler to use than Vim.
+- Example: `nano file.txt` opens `file.txt` in Nano for editing.
+
+## `mkdir` (Make Directory):
+- Creates a new directory.
+- Example: `mkdir new_folder` creates a folder called `new_folder`.
+
+## `mv` (Move or Rename):
+- Moves files or directories, or renames them.
+- Example: `mv file.txt /home/user/Documents/` moves `file.txt` to the Documents folder.
+- Example: `mv oldname.txt newname.txt` renames the file from `oldname.txt` to `newname.txt`.
+
+## `rm` (Remove):
+- Deletes files or directories.
+- Example: `rm file.txt` deletes `file.txt`. Use `rm -r folder/` to remove a directory and its contents.
+
+## `man` (Manual):
+- Displays the manual for a command, showing detailed information on how to use it.
+- Example: `man ls` shows the manual page for the `ls` command.
+
+## `ssh` (Secure Shell):
+- Connects to a remote server or machine securely over the network.
+- Example: `ssh user@hostname` logs into the remote machine at `hostname` as the `user`.
+
+## `ps` (Process Status):
+- Displays information about currently running processes.
+- Example: `ps aux` shows a detailed list of all running processes.
+
+## `wget` (Web Get):
+- Downloads files from the web via HTTP, HTTPS, or FTP.
+- Example: `wget http://example.com/file.zip` downloads `file.zip` from the specified URL.
+
+## `sudo` (Superuser Do):
+- Executes commands as a superuser (with elevated privileges).
+- Example: `sudo apt update` runs the `apt update` command with superuser privileges to update the system's package list.
+
+---
+
+## Summary of Usage:
+- **Navigating and working with directories**: `pwd`, `cd`, `ls`, `mkdir`
+- **File management**: `chmod`, `mv`, `rm`
+- **Text editors**: `vim`, `nano`
+- **System commands**: `man`, `ssh`, `ps`, `sudo`
+- **Downloading files**: `wget`
+
+> Each command can be combined with various options to enhance functionality (like `-r`, `-l`, etc.). You can explore these using the `man` command.
+
 ## Editors
 - workspace of a web application developer
 ### VI
@@ -387,6 +457,17 @@ HTTPS (Secure Hypertext Transport Protocol) - negotiated secure connection that 
 - padding - inherits things like background color
 - border - color, thickness, line style
 - margin - external, whitespace
+Example:
+padding: 25px 50px 75px 100px;
+  - top padding is 25px
+  - right padding is 50px
+  - bottom padding is 75px
+  - left padding is 100px
+```
+div {
+  padding: 25px 50px 75px 100px;
+}
+```
 
 ![Alt text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/css/introduction/cssBoxModel.jpg)
 ## Selectors
@@ -551,6 +632,12 @@ p {
 | flex   | Display this element's children in a flexible orientation.                                                               |
 | grid   | Display this element's children in a grid orientation.                                                                   |
 
+| display Value | HTML Elements With This Default Value |
+|---------------|---------------------------------------|
+| block         | div, p, table                         |
+| inline        | span, b, i, strong, em                |
+| inline-block  | img                                   |
+
 ### Viewport Meta Tag
 - tells browser not to scale page
 ``` <meta name="viewport" content="width=device-width,initial-scale=1" /> ```
@@ -709,6 +796,41 @@ Object Types
 - supports `if`, `else`, and `if else`.
 - ternary operator: condition ? ifTrue : ifFalse
 - Falsy expressions: false, null, NaN, 0, "", Undefined
+```
+if (condition) {
+  //  block of code to be executed if the condition is true
+}
+
+if (condition) {
+  //  block of code to be executed if the condition is true
+} else {
+  //  block of code to be executed if the condition is false
+}
+
+if (condition1) {
+  //  block of code to be executed if condition1 is true
+} else if (condition2) {
+  //  block of code to be executed if the condition1 is false and condition2 is true
+} else {
+  //  block of code to be executed if the condition1 is false and condition2 is false
+}
+```
+- switch statment - use to select one of many code blocks to be executed
+  - expression is evaluated once. Value is compared to values of case
+  - match - associated block of code is executed
+  - no match - default code is executed
+```
+switch(expression) {
+  case x:
+    // code block
+    break;
+  case y:
+    // code block
+    break;
+  default:
+    // code block
+}
+```
 ### Loops
 - do while - do while something is true. Executes block at least once before checking condition
 ```
@@ -1235,7 +1357,7 @@ submitDataEl.addEventListener('click', function (event) {
 | Mouse          | Click events          |
 | Text selection | When text is selected |
 
-
+- getElementById() -  returns an element with a specified value.
 ## Local Storage
 - provides ability to persistently store and retrieve data on user's browser across sessions and HTML renderings
 - Ex: frontend JS stores user's name, retrieve later when different page is loaded
@@ -1275,3 +1397,209 @@ const coinToss = new Promise((resolve, reject) => {
     - can't call unless at top level of JS, or in a function defined with async keyword
 - uses try/catch block
 
+
+## Miscellaneous
+- `ls -la` will list all files, including hidden ones, in the current directory with detailed information about each file.
+
+- **TLD:** `.click`
+- **Root Domain:** `bozo.click`
+- **Subdomain:** `banana.fruit`
+
+| Port Number | Protocol | Description                                   |
+|-------------|----------|-----------------------------------------------|
+| 80          | HTTP     | Unencrypted web traffic                       |
+| 443         | HTTPS    | Encrypted web traffic                         |
+| 22          | SSH      | Secure remote login and secure network services|
+
+
+# React
+## Web Frameworks
+- make job of writing web apps easier by providing tools for completing common tasks
+  - modularizing code, single page applications, simplifying Reactivity
+- some frameworks create hybrid file formats
+  - React JSX - JavaScript and HTML
+- Lot's of different frameworks, advantages and disadvantages
+- VUE - combines HTML, CSS and JS into single file. HTML represented by template element
+- Svelte - combines HTML, CSS, and JS. Requires a transpiler to generate browser-ready code instead of runtime virtual DOM
+  - transpiler - converts source code from language to language (Babel)
+- React - JS and HTML, CSS must be declared outside JSX file
+- Angular component - defines what JS, HTML, and CSS are combined together
+## React
+- React...reactive web page components (update with user actions)
+- Jordan Walke for Facebook in 2011
+- Abstracts HTML and KS into JSX then converted into valid HTML and JS
+- React.createelement - generates DOM elements and monitors data they represent for changes. If change is found, React updates
+## components
+- allow you to modularize functionality of application
+### Render Function
+- primary purpose of component is to update user interface
+- done with render function, whatever is returned is inserted into HTML
+- Example: JSX file w/ React component Demo causes React to load Demo, call render function, and insert result
+JSX
+```
+<div>
+  Component: <Demo />
+</div>
+```
+React Component
+```
+function Demo() {
+  const who = 'world';
+  return <b>Hello {who}</b>;
+}
+```
+Resulting HTML
+```
+<div>Component: <b>Hello world</b></div>
+```
+### Properties
+- Properties - passed into component through element property. Component receives properties in constructor and is displayed when rendered
+JSX
+```
+<div>Component: <Demo who="Walke" /><div>
+```
+React Component
+```
+function Demo(props) {
+  return <b>Hello {props.who}</b>;
+}
+```
+Resulting HTML
+```
+<div>Component: <b>Hello Walke</b></div>
+```
+### State
+- internal state, created using `React.useState` hook function.
+- `useState` - returns variable containing curret state and function to update
+- Example: state variable `clicked` and toggles click state in updateClicked function
+```
+const Clicker = () => {
+  const [clicked, updateClicked] = React.useState(false);
+
+  const onClicked = (e) => {
+    updateClicked(!clicked);
+  };
+
+  return <p onClick={(e) => onClicked(e)}>clicked: {`${clicked}`}</p>;
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Clicker />);
+```
+- You can use JSX without a function...variable
+```
+const hello = <div>Hello</div>;
+
+ReactDOM.render(hello, document.getElementById('root'));
+```
+### Class Style components
+- you can also define components as classes, not just functions
+- React is moving away from using classes
+- Main Difference: properties loaded on constructor and state is set using setState function on object
+```
+class Clicker extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      clicked: false,
+    };
+  }
+  onClicked() {
+    this.setState({
+      clicked: !this.state.clicked,
+    });
+  }
+  render() {
+    return <p onClick={(e) => this.onClicked(e)}>clicked: {`${this.state.clicked}`}</p>;
+  }
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Clicker />);
+```
+### Reactivity 
+- properties and state are used to determine reactivity of interface
+- controls how component reacts to actions taken by user/events that happens
+- when component's state/properties change, render function for component and all of its dependents are called.
+## Hooks
+- Allow React function style components to do everything  class style could do and more
+- as new features are added to React they're included as Hooks
+### useEffect Hooks
+- allows you to represent lifecycle events (stages of existence)
+- Run function every time component renders:
+```
+function UseEffectHookDemo() {
+  React.useEffect(() => {
+    console.log('rendered');
+  });
+
+  return <div>useEffectExample</div>;
+}
+
+ReactDOM.render(<UseEffectHookDemo />, document.getElementById('root'));
+```
+- can create cleanup functions, useful to create side effects, tracking when component is displayed/hidden
+### Hook Dependencies
+- control what triggers `useEffect` hook by specifiying Dependencies
+- Want `useEffect` hook to be called when component is initially called and when first variable is clicked. Pass in array of dependencies
+```
+function UseEffectHookDemo() {
+  const [count1, updateCount1] = React.useState(0);
+  const [count2, updateCount2] = React.useState(0);
+
+  React.useEffect(() => {
+    console.log(`count1 effect triggered ${count1}`);
+  }, [count1]);
+
+  return (
+    <ol>
+      <li onClick={() => updateCount1(count1 + 1)}>Item 1 - {count1}</li>
+      <li onClick={() => updateCount2(count2 + 1)}>Item 2 - {count2}</li>
+    </ol>
+  );
+}
+
+ReactDOM.render(<UseEffectHookDemo />, document.getElementById('root'));
+```
+- hooks must be called at top scope of a function, can't be called inside loop/Conditionals
+  - ensures hooks are always called in same order when component is rendered
+## Router
+- provides functionality for single-page applications
+- multipage (common components duplicated/HTML injected) vs single page (one HTML page, JS manipulates DOM)
+### Basic implementation
+- `BrowserRouter` component - encapsulates entire application and controls routing action
+- `Link`/`NavLink` component - capture user navigation events and modifies what is rendered by `Routes` component by matching to and path attributes
+```
+// Inject the router into the application root DOM element
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  // BrowserRouter component that controls what is rendered
+  // NavLink component captures user navigation requests
+  // Routes component defines what component is routed to
+  <BrowserRouter>
+    <div className='app'>
+      <nav>
+        <NavLink to='/'>Home</Link>
+        <NavLink to='/about'>About</Link>
+        <NavLink to='/users'>Users</Link>
+      </nav>
+
+      <main>
+        <Routes>
+          <Route path='/' element={<Home />} exact />
+          <Route path='/about' element={<About />} />
+          <Route path='/users' element={<Users />} />
+          <Route path='*' element={<Navigate to='/' replace />} />
+        </Routes>
+      </main>
+    </div>
+  </BrowserRouter>
+);
+```
+- use className - for assigning classes in JSX
+## Reactivity
+- React enables reactivity with three major pieces of a React component `props`, `state`, and `render`
+- when a component's JSX is rendered, React parses it and creates list of references to component's `state` or `prop` objects
+- then monitors these objects and detects changes - if so it calls `render` function
+- parents can control child's functionality with properties
+- updateState happens asynchronously, never know when it's going to happen
