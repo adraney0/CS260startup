@@ -1397,7 +1397,14 @@ const coinToss = new Promise((resolve, reject) => {
     - can't call unless at top level of JS, or in a function defined with async keyword
 - uses try/catch block
 
-
+## Debugging
+### Console
+- insert `console.log` functions as it Executes
+- console tab in debugger
+- can inspect variables by entering name into console
+### Browser
+- source tab - displays source files
+- breakpoints
 ## Miscellaneous
 - `ls -la` will list all files, including hidden ones, in the current directory with detailed information about each file.
 
@@ -1412,6 +1419,53 @@ const coinToss = new Promise((resolve, reject) => {
 | 22          | SSH      | Secure remote login and secure network services|
 
 
+# Node.js
+## Introduction
+- 2009 Ryan Dahl
+- first successful application for deploying JS outside the browser
+- Browsers run JS on JS interpreter and execution engine
+- V8 is an engine used by google and Node.js, read and executes code
+- In console:
+  - node.js is called `node`
+  - interpretive mode - execute without any parameters and type JS directly into interpreter
+    - use .exit to exit
+### Node Package Manager
+- way to use code that has already been written by others
+- implement common tasks
+1. Install package locally on machine using NPM
+2. Include `requre` statement in code referencing package name
+- NPM is automatically installed when you install Node.js
+- access to large repo of packages (search on website)
+- must initialize code to use NPM before using
+  - create directory and run `npm init` use `npm init -y` to skip Q and A
+### Package.json
+- contains three main things:
+  1. project metadata (name, default entry JS)
+  2. commands (scripts) you can execute to run, test/distribute code
+  3. packages project depends on
+- installing packages - use `npm install` followed by package name
+- removing package - `npm uninstall <package name here>`
+- `package-lock.json` - file
+- `node_modules` - directory, contains actual JS fioles for package and dependent packages. As you install packages directory gets large. Include in `.gitignore`
+### Steps for using Node.js
+1. Create your project directory
+2. Initialize it for use with NPM by running npm init -y
+3. Make sure .gitignore file contains node_modules
+4. Install any desired packages with npm install <package name here>
+5. Add require('<package name here>') to your application's JavaScript
+6. Use the code the package provides in your JavaScript
+7. Run your code with node index.js
+### Deno and Bun
+- sucessor to Node.js
+- more compliant with advances to ECMAscript and has significant performance enhancements
+- Bun is another competitor
+## Debugging
+- debugging tools in VSCode
+- `F5` - opens the debugger
+- `F10` - steps to the next line
+- `F11` - step into function call
+- when last line of code executes debugger automatically exits
+- `SHIFT-F5` - stop debugging
 # React
 ## Web Frameworks
 - make job of writing web apps easier by providing tools for completing common tasks
