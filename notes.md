@@ -1657,3 +1657,55 @@ root.render(
 - then monitors these objects and detects changes - if so it calls `render` function
 - parents can control child's functionality with properties
 - updateState happens asynchronously, never know when it's going to happen
+
+## Toolchains
+- abstracting complexity of programming with tools including:
+  - Code Repository - stores code in a shared, versioned location
+  - Linter - removes, or warns of non-idiomatic code usage
+    - non-iodomatic - code that doesn't follow conventions of code (incorrect nameing conventions)
+  - prettier - formats code according to shared standard
+  - transpiler - compiles code into different format (JSK to JS)
+  - Polyfill - generates backward compatible code for supporting old browser versions that don't support latest standards
+  Bundler - packages code bundles for delivery to browser. Enables compatibility and performance
+  - Minifier - removes whitespace and renames variables (smaller/more effiecent code)
+  - Testing - automated tests at multiple levels
+  - Deployment - automated packaging and delivery of code from development environment to production
+The toolchain that we use for our React project consists of GitHub as the code repository, Vite for JSX, TS, development and debugging support, ESBuild for converting to ES6 modules and transpiling (with Babel underneath), Rollup for bundling and tree shaking, PostCSS for CSS transpiling, and finally a simple bash script (deployReact.sh) for deployment.
+## Vite
+- Command Line Interface (CLI) - use to initially set up web application. Saves trouble of configuring parameters, get a quick start
+- Vite - bundles code quickly, good debugging suport, easily support JSX, TypeScript and different CSS
+- `code .` command - opens up current directory in VS code
+- `main.jsx` - creates React application by associating `#root` element with `App` component found in `App.jsx`
+### JSX vs JS
+ - use .jsx (babel transpiler works for either), some editor tools work differently based on extension
+ - `npm run dev` - bundling code to temporary directory Vite debug HTTP server loads from
+ - `npm run build` - makes it so you can deploy to production environment. Executes `build` script in `package.json` 
+ - `vite build` transpiles, minifies, injects JS, and outputs everything to deployment-ready version in subdirectory `dist`
+  - files are in `assets` directory, are bundled and minified
+  - deployment scripts create production distribution by calling `npm run build` and copying result to production server
+
+|   Directory  |        File       |                                                       Purpose                                                         |
+|:------------:|:-----------------:|:-----------------------------------------------------------------------------------------------------------------------:|
+| ./           |                   |                                                                                                                         |
+|              | index.html        | Primary page for the application. This is the starting point to load all of the JSX components beginning with main.jsx. |
+|              | package.json      | NPM definition for package dependencies and script commands. This is what maps npm run dev to actually start up Vite.   |
+|              | package-lock.json | Version constraints for included packages (do not edit this).                                                           |
+|              | vite.config.js    | Configuration setting for Vite. Specifically this sets up React for development.                                        |
+| ./public     |                   |                                                                                                                         |
+|              | vite.svg          | Vite logo for use as favicon and for display in the app.                                                                |
+| ./src        |                   |                                                                                                                         |
+|              | main.jsx          | Entry point for code execution. This simply loads the App component found in App.jsx.                                   |
+|              | index.css         | CSS for the entire application.                                                                                         |
+|              | App.jsx           | JSX for top level application component. This displays the logs and implements the click counter.                       |
+|              | App.css           | CSS for the top level application component.                                                                            |
+| ./src/assets |                   |                                                                                                                         |
+|              | react.svg         | React logo for display in the app.                                                                                      |
+
+## Simon React P1
+
+## Tic-Tac-Toe
+- component - piece of reusable code that represents part of a UI. Used to render, manage, and update UI elements in application
+- fragment - allows you to return multiple JSX elements `(<> </>)`
+- immutability - makes complex features easier to implement. Allows you to undo/redo certain acions
+
+## Startup React
