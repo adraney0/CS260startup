@@ -1702,6 +1702,53 @@ The toolchain that we use for our React project consists of GitHub as the code r
 |              | react.svg         | React logo for display in the app.                                                                                      |
 
 ## Simon React P1
+1. Install and Configure Vite
+```
+npm init -y
+npm install vite@latest -D
+```
+- change scripts
+2. Reorganize Code
+- public directory for application image and sonds assets
+- src directory for React code (create folder for each of the view components)
+- rename `main.css` to `app.css` and mve it to src directory
+3. Convert to React Bootstrap
+```
+npm install bootstrap react-bootstrap
+```
+- Use the following to import Bootstrap
+```
+import 'bootstrap/dist/css/bootstrap.min.css';
+```
+4. Enabling React
+```
+npm install react react-dom react-router-dom
+```
+- create `index.html` and `index.jsx`
+5. Create App Component
+- create `app.jsx` file, commit changes
+- return HTML, turn class to className
+6. Create View Components
+- Create files - `login.jsx`, `play.jsx`, `scores.jsx`, and `about.jsx`
+7. Create the Router
+- displays each component as the navigation UI requests it
+- controls the whole application by determining what component to display based on what navigation the user chooses
+```
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { Login } from './login/login';
+import { Play } from './play/play';
+import { Scores } from './scores/scores';
+import { About } from './about/about';
+```
+- Wrap app return statement in `BrowserRouter` component
+- replace `a` elements with `NavLink` component
+- Create `Routes` element, `notFound` function at bottom of `app.jsx`
+8. Convert to React Components
+  1. copy `main` html element into return value
+  2. rename `class` to `className`
+  3. move CSS to component directory and use `import` statement
+9. Deployment Script
+- create `deployReact.sh`
 
 ## Tic-Tac-Toe
 - component - piece of reusable code that represents part of a UI. Used to render, manage, and update UI elements in application
