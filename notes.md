@@ -1927,4 +1927,101 @@ Domain expires:             31-Jul-2025
     - if HTTP matches definition for gateway service, Caddy makes connection to service's port
 - need different ports for everything
 ## HTTP
+- how the web talks, browsers make requests to servers using HTTP (exchange requests and responses)
+- browsser makes request and server generates HTTP response
+- `curl` - command for transferring data from or to a server using different protocols (HTTP, HTTPS, etc.). Popular for testing APIs and performing basic network tasks
+HTTP Request:
+```
+<verb> <url path, parameters, anchor> <version>
+[<header key: value>]*
+[
+
+  <body>
+]
+```
+HTTP Response:
+```
+<version> <status code> <status string>
+[<header key: value>]*
+[
+
+  <body>
+]
+```
+### Verbs
+describe what HTTP request is looking for
+
+|   Verb  |                                                                                                                          Meaning                                                                                                                         |
+|:-------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| GET     | Get the requested resource. This can represent a request to get a single resource or a resource representing a list of resources.                                                                                                                        |
+| POST    | Create a new resource. The body of the request contains the resource. The response should include a unique ID of the newly created resource.                                                                                                             |
+| PUT     | Update a resource. Either the URL path, HTTP header, or body must contain the unique ID of the resource being updated. The body of the request should contain the updated resource. The body of the response may contain the resulting updated resource. |
+| DELETE  | Delete a resource. Either the URL path or HTTP header must contain the unique ID of the resource to delete.                                                                                                                                              |
+| OPTIONS | Get metadata about a resource. Usually only HTTP headers are returned. The resource itself is not returned.                                                                                                                                              |
+### Status Codes
+- Used in HTTP responses so client of request knows how to interprety response
+  - Partitioned into 5 blocks:
+  - 1xx - Informational.
+  - 2xx - Success.
+  - 3xx - Redirect to some other location, or that the previously cached resource is still valid.
+  - 4xx - Client errors. The request is invalid.
+  - 5xx - Server errors. The request cannot be satisfied due to an error on the server.
+
+| Code |          Text         |                                                              Meaning                                                              |
+|:----:|:---------------------:|:---------------------------------------------------------------------------------------------------------------------------------:|
+| 100  | Continue              | The service is working on the request                                                                                             |
+| 200  | Success               | The requested resource was found and returned as appropriate.                                                                     |
+| 201  | Created               | The request was successful and a new resource was created.                                                                        |
+| 204  | No Content            | The request was successful but no resource is returned.                                                                           |
+| 304  | Not Modified          | The cached version of the resource is still valid.                                                                                |
+| 307  | Permanent redirect    | The resource is no longer at the requested location. The new location is specified in the response location header.               |
+| 308  | Temporary redirect    | The resource is temporarily located at a different location. The temporary location is specified in the response location header. |
+| 400  | Bad request           | The request was malformed or invalid.                                                                                             |
+| 401  | Unauthorized          | The request did not provide a valid authentication token.                                                                         |
+| 403  | Forbidden             | The provided authentication token is not authorized for the resource.                                                             |
+| 404  | Not found             | An unknown resource was requested.                                                                                                |
+| 408  | Request timeout       | The request takes too long.                                                                                                       |
+| 409  | Conflict              | The provided resource represents an out of date version of the resource.                                                          |
+| 418  | I'm a teapot          | The service refuses to brew coffee in a teapot.                                                                                   |
+| 429  | Too many requests     | The client is making too many requests in too short of a time period.                                                             |
+| 500  | Internal server error | The server failed to properly process the request.                                                                                |
+| 503  | Service unavailable   | The server is temporarily down. The client should try again with an exponential back off.                                         |
+
+### Headers
+- specify metadata about a request/response
+   - how to handle security, caching, data formats, cookies
+
+|            Header           |                Example               |                                                Meaning                                               |
+|:---------------------------:|:------------------------------------:|:----------------------------------------------------------------------------------------------------:|
+| Authorization               | Bearer bGciOiJIUzI1NiIsI             | A token that authorized the user making the request.                                                 |
+| Accept                      | image/*                              | The format the client accepts. This may include wildcards.                                           |
+| Content-Type                | text/html; charset=utf-8             | The format of the content being sent. These are described using standard MIMEtypes.                  |
+| Cookie                      | SessionID=39s8cgj34; csrftoken=9dck2 | Key value pairs that are generated by the server and stored on the client.                           |
+| Host                        | info.cern.ch                         | The domain name of the server. This is required in all requests.                                     |
+| Origin                      | cs260.click                          | Identifies the origin that caused the request. A host may only allow requests from specific origins. |
+| Access-Control-Allow-Origin | https://cs260.click                  | Server response of what origins can make a request. This may include a wildcard.                     |
+| Content-Length              | 368                                  | The number of bytes contained in the response.                                                       |
+| Cache-Control               | public, max-age=604800               | Tells the client how it can cache the response.                                                      |
+| User-Agent                  | Mozilla/5.0 (Macintosh)              | The client application making the request.                                                           |
+
+### Body
+- format of body of HTTP request/response defined by `Content-Type` header. 
+  - EX: HTML text, binary image format, JSON, JS
+  - client can specify what formats it accepts using `accepts` header
+### Cookies
+- HTTP - is stateless. One HTTP request doesn't know anything baout precios/future requests
+- Cookies - method for tracking states. Generated by server and passed to client as HTTP header
+  - client caches cookies and returns it as an HTTP header back to server on subsequent requests
+  - allows server to remember things like language preference/authenticaiton credentials. 
+  - use to track and share everything a user does
+### Versions
+
+| Year | Version |                     Features                    |
+|:----:|:-------:|:-----------------------------------------------:|
+| 1990 | HTTP0.9 | one line, no versions, only get                 |
+| 1996 | HTTP1   | get/post, header, status codes, content-type    |
+| 1997 | HTTP1.1 | put/patch/delete/options, persistent connection |
+| 2015 | HTTP2   | multiplex, server push, binary representation   |
+| 2022 | HTTP3   | QUIC for transport protocol, always encrypted   |
+
 ## Fetch
