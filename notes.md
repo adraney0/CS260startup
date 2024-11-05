@@ -1756,3 +1756,175 @@ import { About } from './about/about';
 - immutability - makes complex features easier to implement. Allows you to undo/redo certain acions
 
 ## Startup React
+
+## The Internet
+- globally connects independent networks and computing devices
+### Making Connections
+- must have IP address to talk between devices
+- Domain Name - symbolic name for IP address
+- DNS - converts IP addresses to Domain Names
+- `dig` - look up IP address for any domain name (on the console)
+```
+➜  dig byu.edu
+
+byu.edu.		5755	IN	A	128.187.16.184
+```
+- once you have IP address, connect it to device by asking for connection route
+  - Connection Route - hops across network until destination is discovered and connection is esetablished
+### Traceroute
+- console utility
+- shows all the steps to get somewhere
+### Network Internals
+- sending data, uses TCP/IP model
+- layered architecture levels
+  - application - functionality, web (HTTP), mail (SMTP), files (FTP), remote shell (SSH), and chat (IRC)
+  - transport - breaks application info into chunks and sends data
+  - internet - connection is made, finds device and keeps connection alive
+  - link - physical connections and hardward
+
+|    Layer    |     Example     |                Purpose                |
+|:-----------:|:---------------:|:-------------------------------------:|
+| Application | HTTPS           | Functionality like web browsing       |
+| Transport   | TCP             | Moving connection information packets |
+| Internet    | IP              | Establishing connections              |
+| Link        | Fiber, hardware | Physical connections                  |
+
+## Web Servers
+- Web Server - computing device that is hosting a web service that knows how to accept incoming internet connections and speak HTTP
+### Monolithic Web Servers
+- used to buy expensive complex software program that spoke HTTO and instaled on a hardware server
+  - considred web server
+### Combining Web and Application Services
+- most modern languages include libraries that have ability to make connections and serve up HTTP
+- `curl` makes an HTTP request and sees the time response
+### Web Service Gateways
+- gateway/reverse proxy - web service that listens on commmon HTTPS port 443. Looks at request and maps it to other services on different ports
+![Alt text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/webServers/webServers/webServersGateway.jpg)
+- we use Caddy for this
+### Microservices
+- web services that serve one purpose
+- break into chunks and manage independently from other functionalities
+- handle fluctuations in user demand 
+### Serverless
+- server is conceptually removed from architecture and you write a function that speaks HTTP
+- function loaded through gateway that maps web request to function
+- gateway automatically scales hardware needed to host serverless function based on demand
+- reduces what web applicaiton developer needsto think about down to a single independent function
+
+## Domain Names
+- text string that follows specific naming convention and is listed in a special database called domain name registry
+- Broken into parts
+  - Root Domain - represented by secondary level domain and top level domain (byu.edu, google.com)
+    - Top Level Domain (TLD) - com, edu, click
+  - Subdomain Prefixes
+    - owner can create any number of subdomains
+    - each subdomain may resolve to a different IP address
+- `whois` get info about domain name from domain name registry 
+```
+➜  whois byu.edu
+
+Domain Name: BYU.EDU
+
+Registrant:
+	Brigham Young University
+	3009 ITB
+	2027 ITB
+	Provo, UT 84602
+	USA
+
+Administrative Contact:
+	Mark Longhurst
+	Brigham Young University
+	Office of Information Technology
+	1208 ITB
+	Provo, UT 84602
+	USA
+	+1.8014220488
+	markl@byu.edu
+
+Technical Contact:
+	Brent Goodman
+	Brigham Young University
+	Office of Information Technology
+	1203J ITB
+	Provo, UT 84602
+	USA
+	+1.8014227782
+	dnsmaster@byu.edu
+
+Domain record activated:    19-Jan-1987
+Domain record last updated: 11-Jul-2022
+Domain expires:             31-Jul-2025
+```
+### DNS
+- domain name in registry = listed with DNS server and associated with IP address
+- authoritative name servers - DNS servers that store complete database of resource records for a particular domain. Every DNS server references these
+- facilitate mapping of domain names to IP addresses
+  - address (A) - straight mapping from domain name to IP address
+  - canonical name (CNAME) - maps one domain name to another, alias. EX: map byu.edu to same IP address as byu.com so you can use both
+  - STEPS:
+     - enter name into browser
+     - checks if it has it in cache
+     - if not, contacts DNS and gets IP address
+     - DNS server has cache, if not there it contacts authoritative name saerver
+     - if the authority doesn't know, you get unknown domain name error
+- time to live (TTL) - you can set it, determines lifespan of data in DNS cache
+### Leasing
+- you can pay to lease a name for a specific time
+- you can extend before it expires
+## Web Services Introduction 
+- web programming requests between devices use HTTPS to exchange data
+- with JS you can make requests to external services and get external data (quotes)
+- Making A Web Service Requerst - supply URL to fetch function in browser
+- endpoints/APIs - functions provided by web service
+- can also be used in the backend
+## URL
+- Uniform Resource Locator - location of web resrouce (web page, font, image, video stream, dtabase, record, JSON object)
+
+|     Part    |                Example               |                                                                                                                                       Meaning                                                                                                                                       |
+|:-----------:|:------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Scheme      | https                                | The protocol required to ask for the resource. For web applications, this is usually HTTPS. But it could be any internet protocol such as FTP or MAILTO.                                                                                                                            |
+| Domain name | byu.edu                              | The domain name that owns the resource represented by the URL.                                                                                                                                                                                                                      |
+| Port        | 3000                                 | The port specifies the numbered network port used to connect to the domain server. Lower number ports are reserved for common internet protocols, higher number ports can be used for any purpose. The default port is 80 if the scheme is HTTP, or 443 if the scheme is HTTPS.     |
+| Path        | /school/byu/user/8014                | The path to the resource on the domain. The resource does not have to physically be located on the file system with this path. It can be a logical path representing endpoint parameters, a database table, or an object schema.                                                    |
+| Parameters  | filter=names&highlight=intro,summary | The parameters represent a list of key value pairs. Usually it provides additional qualifiers on the resource represented by the path. This might be a filter on the returned resource or how to highlight the resource. The parameters are also sometimes called the query string. |
+| Anchor      | summary                              | The anchor usually represents a sub-location in the resource. For HTML pages this represents a request for the browser to automatically scroll to the element with an ID that matches the anchor. The anchor is also sometimes called the hash, or fragment ID.                     |
+
+- URN - uniform resource name, unique resource name that doesn't specify location info.
+- URI - uniform resource identifier, general, refers to URL/URN
+## Ports
+- needed (+IP Address) to connect to internet
+- allow single device to support multiple protocals and different types of srevices
+- exposed externally/only used internally
+  - EX: HTTPS (port 443) allow world to connect. SSH port (22) only alow computers at school, service defined port (3000) allow access to processes running on device
+- IANA (internet governing body) - defines standard usage of port numbers
+  - 0 to 1023 are standard, web service should avoid thsee unless providing protocol represented by standard
+  - 1024 to 49151 - ports used by services running interally on device
+  - 49152 to 5535 - dynamic, used to create dynamic connections to device
+
+| Port |                                              Protocol                                              |
+|:----:|:--------------------------------------------------------------------------------------------------:|
+| 20   | File Transfer Protocol (FTP) for data transfer                                                     |
+| 22   | Secure Shell (SSH) for connecting to remote devices                                                |
+| 25   | Simple Mail Transfer Protocol (SMTP) for sending email                                             |
+| 53   | Domain Name System (DNS) for looking up IP addresses                                               |
+| 80   | Hypertext Transfer Protocol (HTTP) for web requests                                                |
+| 110  | Post Office Protocol (POP3) for retrieving email                                                   |
+| 123  | Network Time Protocol (NTP) for managing time                                                      |
+| 161  | Simple Network Management Protocol (SNMP) for managing network devices such as routers or printers |
+| 194  | Internet Relay Chat (IRC) for chatting                                                             |
+| 443  | HTTP Secure (HTTPS) for secure web requests                                                        |
+
+![Alt Text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/webServices/ports/webServicesPorts.jpg)
+
+### My Ports
+- 22 - exposed externally for SSH
+- 443 - secure HTTP communication
+- 80 - unsecure HTTP communication
+- Caddy listens on 80 and 443
+  - request on 80 it redirects to 443 so a secure conection is established. 
+  - request on 443, examines path provided and if path matches static file, and returns
+    - if HTTP matches definition for gateway service, Caddy makes connection to service's port
+- need different ports for everything
+## HTTP
+## Fetch
