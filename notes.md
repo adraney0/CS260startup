@@ -1789,6 +1789,22 @@ byu.edu.		5755	IN	A	128.187.16.184
 | Internet    | IP              | Establishing connections              |
 | Link        | Fiber, hardware | Physical connections                  |
 
+### Video: How Does the Internet Work?
+- the internet is a wire buried in the ground
+  - fiber optic
+  - copper
+  - beamed to satellites
+  - through cell phone networks
+- Two computers connected can communicate to each other through the internet
+- server - special computer connected to the internet
+  - each has unique IP address
+  - IP address - helps computers find each other
+- web pages - files on the server's harddrive
+- clients - connected inderectly to internet through internet service provider
+- packets - how info is transfered through the internet. broken up and reassembled in og order
+- everything connected directly/indirectly to internet has IP address (computer, servers, cell phones)
+- router - anywhere two or more parts of the internet intersect, direct packets
+
 ## Web Servers
 - Web Server - computing device that is hosting a web service that knows how to accept incoming internet connections and speak HTTP
 ### Monolithic Web Servers
