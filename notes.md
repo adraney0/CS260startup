@@ -2078,6 +2078,60 @@ npm install -g nodemon
  - Configure VS Code:  `⌘-SHIFT-P` -> `Debug: Add configuration` -> `Node.js` -> `Node.js: Nodemon setup`
    - launch configuration change program to main JS file for application
 ## Express
+- Node package
+- created by TJ Holowaychuk
+Provides support for:
+1. routing requests for service endpoints
+2. manipulating HTTP requests with JSON body content
+3. generating HTTP responses
+4. using middleware to add functionality
+- revolves around creating and using HTTP routing and middleware functions. 
+- Creating Express Application - install, call constructor and listen on desired port
+```
+npm install express
+```
+```
+const express = require('express');
+const app = express();
+
+app.listen(8080);
+```
+### Defining Routes
+- HTTP endpoints implemented in Express by defining routes that call a function based on a HTTP path 
+- `app` object - supports all HTTTP verbs as functions
+```
+app.get('/store/provo', (req, res, next) => {
+  res.send({name: 'provo'});
+});
+```
+- `get` function - takes two parameters, URL matching pattern and callback function which is invoked when pattern matches
+   - callback function - three params. Represent HTTP request object, response object, and next routing function Express expects to be called if this routing function wants another function to gerneate a response
+- compares routing funciton patterns in order they're added to object.
+- path parameters uses colon. Creates map of path parameters and populates it with matching values found in URL path. Reference parameters using req.params object. 
+```
+app.get('/store/:storeName', (req, res, next) => {
+  res.send({name: req.params.storeName});
+});
+```
+- use post/delete function for POST/DELETE verb
+### Using Middleware
+- standard design pattern has two pieces: mediator and middleware
+  - Middleware - represents componentized pieces of functionality
+  - Mediator - loads middleware components adn determines order of execution. Passes request around to middleware components
+  - Express = mediator, middleware functions = middleware components
+- Express has standard set of middleware functions:
+  - Provide functionality for routing, authentication, CORS, sessions, serving static web files, cookies, and logging
+  - Some provided by default, others must be installed using NPM, can also write own funcions
+  - similar to routing function. Routing functions are middleware functions, only called if pattern matches, but middleware functions are always called for every HTTP request unless preceding middleware function doesn't call next
+Pattern for middleware function:
+```
+function middlewareName(req, res, next)
+```
+- can use third part middleware functions. Ex: cookie parser
+- you can add middleware for handling errors
+
+### Exercise
+`curl -X PUT localhost:8080/st/orem` - performs PUT request to the URL (updates resources/creates if it doesn't alread exist)
 
 ## SOP and CORS
 Cross-Origin Requests - when wep application in one domain makes request to resource on another domain
