@@ -2,6 +2,13 @@ import React from 'react';
 import './about.css';
 
 export function About() {
+  const [imageUrl, setImageUrl] = React.useState('data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=');
+
+  React.useEffect(() => {
+    setImageUrl('placeholder.jpg')
+  }
+)
+
   return (
     <main className = "container-fluid bg-second text-center text-dark">
         <div id="picture" className="picture-box"><img width="400px" src="placeholder.jpg" alt="random" /></div>
