@@ -2039,5 +2039,56 @@ describe what HTTP request is looking for
 | 1997 | HTTP1.1 | put/patch/delete/options, persistent connection |
 | 2015 | HTTP2   | multiplex, server push, binary representation   |
 | 2022 | HTTP3   | QUIC for transport protocol, always encrypted   |
-
 ## Fetch
+- Fetch API - preferred way to make HTTP requests
+  - API, Application Programming Interface - set of rules and protocols allowing one software applicaiton to interact with another. Software interface that allow exchange of data and functions between applications, services, and operating systems
+- `fetch` function - built into browser's JS runtime. Call it from JS code running in browser
+  - takes a URL and returns a promise
+  - `then` function of promise - takes callback function that's asynchronously called when reqested URL content is obtained. 
+  - returned content - type `application/json` can use `json` function to convert to JS ovject
+- POST request - sends data in body of request
+## Node Web Service
+-  `npm init -y` - initializes a package.json and skips the questions
+```
+const http = require('http');
+const server = http.createServer(function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.write(`<h1>Hello Node.js! [${req.method}] ${req.url}</h1>`);
+  res.end();
+});
+
+server.listen(8080, () => {
+  console.log(`Web service listening on port 8080`);
+});
+```
+- uses Node.js built in `http` package to create our HTTP server using `httpcreateServer` function and a callback function that takes request and response (called whenever server receives HTTP request)
+- `server.listen` listens on port 8080 and blocks until program is terminated
+   - "blocks" - program doesn't exit/continue until it's explicitly stopped/terminated. Waits for incoming requests, stops when server is closed/process is terminated. Waits for something to happen. 
+- go to localhost:8080 to find result
+-`CTRl-C` in console to kill (make it stop listening)
+- can also do directly in VS code (F5 and select node.js)
+### Debugging
+- use `F5` to continue and `F11` to step into
+- debugging in packages is helpful to learn how code works
+### Nodemon
+- wrapper around `node` that watches for files in project directory to change. Detects that you saved something and it will automatically restart node
+```
+npm install -g nodemon
+```
+ - Configure VS Code:  `⌘-SHIFT-P` -> `Debug: Add configuration` -> `Node.js` -> `Node.js: Nodemon setup`
+   - launch configuration change program to main JS file for application
+## Express
+
+## SOP and CORS
+Cross-Origin Requests - when wep application in one domain makes request to resource on another domain
+  - Hackers could use this to request info from a website to trick people
+- Same Origin Policy (SOP) - to combat hacking. Only allows JS to make requests to domain if it's the same domain the user is currently viewing.
+  - Creates isues when building web applications. Want service that any web application can use...
+- CORS (Cross Origin Resource Sharing) - allows client (browser) to specify origin of request and let server respond with what origins are allowed. 
+  - Server may say: all origins are allowed (general purpose image provider) or only specfic (bank authentication)
+  - If not speficied, server assumes it must be the same
+  - only alerts user, website needs to implement own precautions
+### Third Party Services
+- when you make requests to own web services you're always on same orgin and don't violate SOP
+- requests to different domain - ensure that domain allwos requests, defined by `Access-Control-Allow-Origin` header it returns.
+- test services you use in application, ensure they have `*` in header. 
