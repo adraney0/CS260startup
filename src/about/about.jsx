@@ -6,8 +6,7 @@ export function About() {
 
   React.useEffect(() => {
     setImageUrl('placeholder.jpg')
-  }
-)
+  }, []);
 
   return (
     <main className = "container-fluid bg-second text-center text-dark">
