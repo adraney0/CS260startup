@@ -3,8 +3,38 @@ import React from 'react';
 import "./score.css";
 
 export function Scores() {
-  return (
-    <main className = "container-fluid bg-second text-center">
+const [scores, setScores] = React.useState([]);
+
+    React.useEffect(() => {
+        const scoresText = localStorage.getItem('scores');
+        if (scoresText) {
+            setScores(JSON.parse(scoresText));
+        }
+    }, []);
+
+    const scoreRows = [];
+    if(scores.length) {
+        for (const [i, score] of scores.entries()) {
+            scoreRows.push(
+                <tr key = {i}>
+                    <td>{i}</td>
+                    <td>{score.name.split('@')[0]}</td>
+                    <td>{score.pegsRemaining}</td>
+                    <td>{score.numMoves}</td>
+                    <td>{score.date}</td>
+                </tr>
+            );
+        }
+    } else {
+        scoreRows.push(
+            <tr key = '0'>
+                <td colSpan = '4'>Be the first to score</td>
+            </tr>
+        )
+    }
+
+    return (
+        <main className = "container-fluid bg-second text-center">
             <table className = "table table-warning">
                 <thead className = "table-dark">
                     <tr>
@@ -15,31 +45,8 @@ export function Scores() {
                         <th className = "btn-main">Date</th>
                     </tr>
                 </thead>
-                <tbody className = "table-primary">
-                    <tr>
-                        <td>1</td>
-                        <td>John Smith</td>
-                        <td>1</td>
-                        <td>14</td>
-                        <td>9.26.24</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Sally Smith</td>
-                        <td>2</td>
-                        <td>15</td>
-                        <td>9.25.24</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Bob Smith</td>
-                        <td>2</td>
-                        <td>16</td>
-                        <td>9.27.24</td>
-                    </tr>
-                </tbody>
+                <tbody className = 'table-primary' id = 'scores'>{scoreRows}</tbody>
             </table>
-        <hr />
-    </main>
-  );
+        </main>
+    );
 }
