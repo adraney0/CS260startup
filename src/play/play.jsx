@@ -13,8 +13,9 @@ export function Play() {
             
         </div>
     </div>    
-    <div class = "game">
+    <div className = "game">
         <table>
+            <tbody>
             <tr>
                 <td><button className = "btn-start game-button "></button></td>
             </tr>
@@ -48,6 +49,7 @@ export function Play() {
                 <td><button className = "game-button"></button></td>
                 <td><button className = "game-button"></button></td>
             </tr>
+            </tbody>
         </table>
         </div>
         <div className = "scores text-dark">
