@@ -117,16 +117,6 @@ tr {
     justify-content: center;
 }
 
-.game-button {
-    background-color: #1D3354;
-    width: 10vw; /* Width of the button */
-    height: 10vw; /* Height of the button */
-    max-width: 60px;
-    max-height: 60px;
-    border: none; /* Remove default border */
-    border-radius: 50%; /* Make it circular */
-
-}
 
 .control-buttons {
     display: flex;
@@ -157,9 +147,4 @@ tr {
 
 .btn-start{
     background-color:  rgb(192, 192, 192) !important;
-}
-
-.game-button:hover {
-    background-color: #131736; /* Darker color on hover */
-    transform: scale(1.1); /* Slightly enlarge button on hover */
 }

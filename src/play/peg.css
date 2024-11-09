@@ -1,0 +1,26 @@
+.peg {
+    width: 10vw; /* Width of the button */
+    height: 10vw; /* Height of the button */
+    max-width: 60px;
+    max-height: 60px;
+    border: none; /* Remove default border */
+    border-radius: 50%; /* Make it circular */
+}
+
+.peg.active {
+    background-color: #1D3354;
+}
+
+.peg.empty {
+    background-color: transparent;
+    border: 2px solid #1D3354;
+}
+
+.peg.active:hover {
+    background-color: #131736; /* Darker color on hover */
+    transform: scale(1.1); /* Slightly enlarge button on hover */
+}
+
+.valid-move {
+    background-color: #4caf50;
+}
