@@ -72,21 +72,28 @@ export function Game(props) {
     const handleClick = (row, col) => {
         const newBoard = [...board];
         if (selectedPeg) {
-            //If peg is already selected, check if destination is valid
-            const [fromRow, fromCol] = selectedPeg;
-            // Check if the move is valid
-            if (isValidMove(fromRow, fromCol, row, col)) {
-                console.log("Valid move from:", selectedPeg, "to:", [row, col]);
-                // Make the move: jump the peg
-                newBoard[row][col] = 'X';
-                newBoard[fromRow][fromCol] = ' ';
-                // Remove the jumped peg
-                const middleRow = (fromRow + row) / 2;
-                const middleCol = (fromCol + col) / 2;
-                newBoard[middleRow][middleCol] = ' ';
-                setBoard(newBoard);
+            // If the same peg is clicked again, deselect it
+            if (selectedPeg[0] === row && selectedPeg[1] === col) {
+                console.log("Deselecting peg:", [row, col]);
                 setSelectedPeg(null);
-                setPossibleMoves([]);
+                setPossibleMoves([]); // Clear possible moves when deselecting
+            } else {
+                // If a peg is selected, check if destination is valid
+                const [fromRow, fromCol] = selectedPeg;
+                if (isValidMove(fromRow, fromCol, row, col)) {
+                    console.log("Valid move from:", selectedPeg, "to:", [row, col]);
+
+                    // Make the move: jump the peg
+                    newBoard[row][col] = 'X';
+                    newBoard[fromRow][fromCol] = ' ';
+                    // Remove the jumped peg
+                    const middleRow = (fromRow + row) / 2;
+                    const middleCol = (fromCol + col) / 2;
+                    newBoard[middleRow][middleCol] = ' ';
+                    setBoard(newBoard);
+                    setSelectedPeg(null);
+                    setPossibleMoves([]);
+                }
             }
         } else {
             // Select the peg
