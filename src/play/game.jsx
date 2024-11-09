@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 
 import {Peg} from './peg';
+import {Score} from './scores';
 import './play.css';
 
 export function Game(props) {
@@ -16,51 +17,36 @@ export function Game(props) {
     ]);
     const [selectedPeg, setSelectedPeg] = useState(null); 
     const [possibleMoves, setPossibleMoves] = useState([]);
+    const [numMoves, setNumMoves] = useState(0);
+    
 
+   
+    
     // Check if a move is valid (over an adjacent peg to an empty space)
     const isValidMove = (fromRow, fromCol, toRow, toCol) => {
         const rowDiff = Math.abs(fromRow - toRow);
         const colDiff = Math.abs(fromCol - toCol);
-        
-        console.log(fromRow);
-        console.log(toRow);
-        console.log(`Checking move from [${fromRow}, ${fromCol}] to [${toRow}, ${toCol}]`);
 
         // Ensure the move is exactly 2 spaces away
         if (rowDiff === 2 && colDiff === 2) { // Diagonal moves
-            console.log("inside for loop");
-            const middleRow = (fromRow + toRow) / 2;
-            const middleCol = (fromCol + toCol) / 2;
-            
-            //FOR TESTING
-            const value = board[toRow][toCol] === ' ' && board[middleRow][middleCol] === 'X';  // Destination must be empty and middle must be a peg
-            console.log(value);
+            const middleRow = Math.floor((fromRow + toRow) / 2);
+            const middleCol = Math.floor((fromCol + toCol) / 2);
             
             return board[toRow][toCol] === ' ' && board[middleRow][middleCol] === 'X';  // Destination must be empty and middle must be a peg
         }
         
         // Horizontal moves (left/right)
         if (rowDiff === 0 && colDiff === 2) {
-            const middleCol = (fromCol + toCol) / 2;
-            
-            //FOR TESTING
-            const value = board[toRow][toCol] === ' ' && board[fromRow][middleCol] === 'X';  // Destination must be empty and middle must be a peg
-            console.log(value);
+            const middleCol = Math.floor((fromCol + toCol) / 2);
 
             return board[toRow][toCol] === ' ' && board[fromRow][middleCol] === 'X';  // Destination must be empty and middle must be a peg
         }
 
         // Check if move is a valid vertical move (rowDiff === 2 and colDiff === 0)
         if (colDiff === 0 && rowDiff === 2) {
-            console.log("Vertical move check");
             const middleRow = Math.floor((fromRow + toRow) / 2);
 
-            // Middle position must be occupied by a peg ('X')
-            console.log("Destination:", board[toRow][toCol]);
-            console.log("Middle position:", board[middleRow][fromCol]);
-
             const value = board[toRow][toCol] === ' ' && board[middleRow][fromCol] === 'X';
-            console.log(`Middle position: (${middleRow}, ${fromCol}), Value: ${value}`);
             return value; // Valid if middle has peg and destination is empty
         }
 
@@ -74,14 +60,12 @@ export function Game(props) {
         if (selectedPeg) {
             // If the same peg is clicked again, deselect it
             if (selectedPeg[0] === row && selectedPeg[1] === col) {
-                console.log("Deselecting peg:", [row, col]);
                 setSelectedPeg(null);
                 setPossibleMoves([]); // Clear possible moves when deselecting
             } else {
                 // If a peg is selected, check if destination is valid
                 const [fromRow, fromCol] = selectedPeg;
                 if (isValidMove(fromRow, fromCol, row, col)) {
-                    console.log("Valid move from:", selectedPeg, "to:", [row, col]);
 
                     // Make the move: jump the peg
                     newBoard[row][col] = 'X';
@@ -94,13 +78,14 @@ export function Game(props) {
                     
                     setSelectedPeg(null);
                     setPossibleMoves([]);
+
+                    setNumMoves(prevMoves => prevMoves + 1);
                 }
             }
         } else {
             // Select the peg
             if (board[row][col] === 'X') {
                 setSelectedPeg([row, col]);
-                console.log(getPossibleMoves(row, col));
                 setPossibleMoves(getPossibleMoves(row, col));
             }
         }
@@ -134,7 +119,6 @@ export function Game(props) {
             }
         });
 
-        console.log("Possible Moves: ", moves);
         return moves;
     };
     
@@ -164,6 +148,7 @@ export function Game(props) {
                     ))}
                 </tbody>
             </table>
+            <Score numMoves = {numMoves} />
         </div>
     );
 }
