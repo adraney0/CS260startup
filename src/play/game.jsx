@@ -3,6 +3,7 @@ import React, { useState} from 'react';
 import {Peg} from './peg';
 import {Score} from './scores';
 import {GameOverScreen} from './gameOverScreen';
+import {Controls} from './controls';
 import './play.css';
 
 export function Game({onGameOver}) {
@@ -22,7 +23,8 @@ export function Game({onGameOver}) {
     const [numMoves, setNumMoves] = useState(0);
     const [gameOver, setGameOver] = useState(false);
     
-
+    const [undoStack, setUndoStack] = useState([]);
+    const [redoStack, setRedoStack] = useState([]);
    
     
     // Check if a move is valid (over an adjacent peg to an empty space)
@@ -60,8 +62,9 @@ export function Game({onGameOver}) {
     // Function to handle peg click events
     const handleClick = (row, col) => {
         if (gameOver) return;
-
+        
         const newBoard = [...board];
+        
         if (selectedPeg) {
             // If the same peg is clicked again, deselect it
             if (selectedPeg[0] === row && selectedPeg[1] === col) {
@@ -70,15 +73,22 @@ export function Game({onGameOver}) {
             } else {
                 // If a peg is selected, check if destination is valid
                 const [fromRow, fromCol] = selectedPeg;
+
                 if (isValidMove(fromRow, fromCol, row, col)) {
+                    
+                    const boardCopy = board.map(row => row.slice());
+                    setUndoStack(prevStack => [...prevStack, boardCopy]);
 
                     // Make the move: jump the peg
                     newBoard[row][col] = 'X';
                     newBoard[fromRow][fromCol] = ' ';
+                    
                     // Remove the jumped peg
                     const middleRow = (fromRow + row) / 2;
                     const middleCol = (fromCol + col) / 2;
                     newBoard[middleRow][middleCol] = ' ';
+
+                    
                     setBoard(newBoard);
                     
                     setSelectedPeg(null);
@@ -86,6 +96,7 @@ export function Game({onGameOver}) {
 
                     setNumMoves(prevMoves => prevMoves + 1);
                     checkGameOver(newBoard);
+                    setRedoStack([]);
                 }
             }
         } else {
@@ -159,8 +170,33 @@ export function Game({onGameOver}) {
         setSelectedPeg(null);
         setNumMoves(0);
         setGameOver(false);
+        setUndoStack([]);
+        setRedoStack([]);
         onGameOver(false);
-    }
+    };
+
+    const handleUndo = () => {
+       if(undoStack.length > 0){
+            const lastBoard = undoStack[undoStack.length - 1];
+            
+            setRedoStack(prevRedo => [...prevRedo, board]);
+            setBoard(lastBoard);
+            
+            setUndoStack(prevUndo => prevUndo.slice(0, -1));
+            setNumMoves(prevMoves => prevMoves - 1);
+
+        }
+    };
+
+    const handleRedo = () => {
+        if(redoStack.length > 0) {
+            const nextBoard = redoStack[redoStack.length - 1];
+            setUndoStack(prevUndo => [...prevUndo, board]);
+            setBoard(nextBoard);
+            setRedoStack(prevRedo => prevRedo.slice(0, -1));
+            setNumMoves(prevMoves => prevMoves + 1);
+        }
+    };
 
     return (
         <div className="game">
@@ -168,7 +204,7 @@ export function Game({onGameOver}) {
                 <GameOverScreen numMoves={numMoves} onPlayAgain={handlePlayAgain} />
             ) : (
                 <>
-                    <table>
+                    <table className = "game-wrapper">
                         <tbody>
                             {board.map((row, rowIndex) => (
                                 <tr key={rowIndex}>
@@ -190,6 +226,12 @@ export function Game({onGameOver}) {
                             ))}
                         </tbody>
                     </table>
+                    <Controls
+                        onUndo={handleUndo}
+                        onRedo={handleRedo}
+                        undoDisabled={undoStack.length === 0}
+                        redoDisabled={redoStack.length === 0}
+                    />
                     <Score numMoves={numMoves} />
                 </>
             )}

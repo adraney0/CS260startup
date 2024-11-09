@@ -17,6 +17,16 @@ main {
     justify-content: center;
 }
 
+.game-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    flex: 1;
+}
+
 footer {
     flex: 0 30px;
 }
@@ -71,8 +81,4 @@ footer a {
 
 .custom-link {
     color: #1D3354;
-}
-
-.buttons {
-    margin: 10px;
 }
