@@ -46,11 +46,15 @@ footer a {
 
 .btn-main {
     background-color: #1D3354 !important;
+    border: #1D3354 !important;
     color: white !important; /* Change text color if needed */
+    margin: 10px;
 }
 .btn-second {
     background-color: #467599 !important;
+    border: #1D3354 !important;
     color: white !important; /* Change text color if needed */
+    margin: 10px;
 }
 
 @media (max-height: 600px) {
@@ -67,4 +71,8 @@ footer a {
 
 .custom-link {
     color: #1D3354;
+}
+
+.buttons {
+    margin: 10px;
 }
