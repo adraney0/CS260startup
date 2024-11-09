@@ -91,6 +91,7 @@ export function Game(props) {
                     const middleCol = (fromCol + col) / 2;
                     newBoard[middleRow][middleCol] = ' ';
                     setBoard(newBoard);
+                    
                     setSelectedPeg(null);
                     setPossibleMoves([]);
                 }
@@ -107,11 +108,13 @@ export function Game(props) {
 
     const getPossibleMoves = (row, col) => {
         const directions = [
+            { rowChange: 2, colChange: 0 }, // Up
+            { rowChange: -2, colChange: 0 },  // Down
             { rowChange: 0, colChange: -2 }, // Left
             { rowChange: 0, colChange: 2 },  // Right
-            { rowChange: -2, colChange: 0 }, // Up-left (diagonal)
+            { rowChange: -2, colChange: -2 }, // Up-left (diagonal)
             { rowChange: -2, colChange: 2 }, // Up-right (diagonal)
-            { rowChange: 2, colChange: 0 },  // Down-left (diagonal)
+            { rowChange: 2, colChange: -2 },  // Down-left (diagonal)
             { rowChange: 2, colChange: 2 },  // Down-right (diagonal)
         ];
         const moves = [];
