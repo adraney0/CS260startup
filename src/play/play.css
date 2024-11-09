@@ -121,23 +121,15 @@ tr {
     padding: 10px 20px !important;
 }
 
-.scores {
+.score {
+    display: flex;
+    align-items: center;
     padding: 20px 0 20px;
     font-weight: bold;
 }
 
 .score-holder{
-    text-align: center;
-    font-size: 20px;
-    font-family: monospace;
-    font-weight: bold;
-    color: #008080;
-    border-radius: 10px;
-    width: 50px;
-    height: 20px;
-    border: solid thin #006565;
-    background-color: #014949;
-    padding: 0px 5px;
+    margin-left: 5px;
 
 }
 
@@ -148,3 +140,4 @@ tr {
 .game-container {
     position: relative;
 }
+

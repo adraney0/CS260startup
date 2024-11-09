@@ -3,7 +3,8 @@ import React from 'react';
 export function Score({numMoves }) {
     return (
         <div className="score">
-            <p><strong>Moves: </strong>{numMoves}</p>
+            <span>Moves: </span>
+            <span className = "score-holder">{numMoves}</span> 
         </div>
     );
 }

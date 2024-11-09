@@ -212,25 +212,6 @@ export function Game({onGameOver}) {
         }
     };
 
-    const simulateWin = () => {
-        // Simulate a board with only one peg left
-        const wonBoard = [
-            [' '],  
-            [' '],  
-            [' '],  
-            [' '],  
-            [' '],  
-            ['X'],  // Only one peg left, simulating a win
-        ];
-    
-        setBoard(wonBoard);
-        checkWinCondition(wonBoard); // Trigger the win condition check
-    };
-
-    React.useEffect(() => {
-        simulateWin(); // Simulate the win on component mount
-    }, []);
-
     return (
         <div className="game">
             {gameWon ? (

@@ -4,8 +4,8 @@ import React from 'react';
 export function Controls({ onUndo, onRedo, undoDisabled, redoDisabled }) {
     return (
         <div className="controls">
-            <button  className = "btn-main" onClick={onUndo} disabled={undoDisabled}>Undo</button>
-            <button  className = "btn-second" onClick={onRedo} disabled={redoDisabled}>Redo</button>
+            <button  className = "btn btn-main" onClick={onUndo} disabled={undoDisabled}>Undo</button>
+            <button  className = "btn btn-second" onClick={onRedo} disabled={redoDisabled}>Redo</button>
         </div>
     );
 }
