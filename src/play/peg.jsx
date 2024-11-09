@@ -1,11 +1,12 @@
 import React from 'react';
 import './Peg.css';
 
-export const Peg = ({ row, col, status, isHighlighted, onClick }) => {
-    const pegClass = `peg ${status} ${isHighlighted ? 'valid-move' : ''}`;
+export function Peg ({status, isSelected, isPossibleMove, onClick }) {
+    const pegClass = `peg ${status} ${isSelected ? 'selected' : ''} ${isPossibleMove ? 'possible-move' : ''}`;
+    
     return (
         <div>
-            <button className = {pegClass} onClick = {() => onClick(row,col)}></button>
+            <button className = {pegClass} onClick = {onClick}></button>
         </div>
-    )
+    );
 }
