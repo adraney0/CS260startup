@@ -22,19 +22,14 @@
 }
 
 .peg.selected:hover {
-    background-color: orange; /* Darker color on hover */
+    background-color: #008080; /* Darker color on hover */
     transform: scale(1.1); /* Slightly enlarge button on hover */
 }
-
-.valid-move {
-    background-color: #4caf50;
-}
-
 .peg.possible-move {
-    background-color: lightblue;
-    border: 2px solid blue;
+    background-color: #B1DDFF;
+    border: 2px solid #467599;
   }
 .peg.selected {
-    background-color: orange; /* Change this to whatever you want */
-    border: 2px solid red;
+    background-color: #008080; /* Change this to whatever you want */
+    border: 2px solid #005A5A;
 }

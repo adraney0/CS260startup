@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     min-width: 375 px;
+    height: 100vh;
 }
 
 header {
@@ -17,6 +18,10 @@ main {
     justify-content: center;
 }
 
+footer {
+    flex: 0 30px;
+}
+
 .game-wrapper {
     display: flex;
     justify-content: center;
@@ -25,10 +30,7 @@ main {
     padding: 20px;
     box-sizing: border-box;
     flex: 1;
-}
-
-footer {
-    flex: 0 30px;
+    position: absolute;
 }
 
 menu {
