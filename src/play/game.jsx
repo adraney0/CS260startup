@@ -4,6 +4,7 @@ import {Peg} from './peg';
 import {Score} from './scores';
 import {GameOverScreen} from './gameOverScreen';
 import {Controls} from './controls';
+import {WinScreen} from './winScreen';
 import './play.css';
 import './game.css'
 
@@ -23,6 +24,7 @@ export function Game({onGameOver}) {
     const [possibleMoves, setPossibleMoves] = useState([]);
     const [numMoves, setNumMoves] = useState(0);
     const [gameOver, setGameOver] = useState(false);
+    const [gameWon, setGamewon]  = useState(false);
     
     const [undoStack, setUndoStack] = useState([]);
     const [redoStack, setRedoStack] = useState([]);
@@ -97,6 +99,7 @@ export function Game({onGameOver}) {
 
                     setNumMoves(prevMoves => prevMoves + 1);
                     checkGameOver(newBoard);
+                    checkWinCondition(newBoard);
                     setRedoStack([]);
                 }
             }
@@ -166,11 +169,21 @@ export function Game({onGameOver}) {
         }
     }, [board]);
 
+    const checkWinCondition = (board) => {
+        const remainingPegs = board.flat().filter(cell => cell === 'X').length;
+
+        if(remainingPegs === 1){
+            setGameOver(true);
+            setGamewon(true);
+        }
+    }
+
     const handlePlayAgain = () => {
         setBoard(initialBoard);
         setSelectedPeg(null);
         setNumMoves(0);
         setGameOver(false);
+        setGamewon(false);
         setUndoStack([]);
         setRedoStack([]);
         onGameOver(false);
@@ -199,9 +212,30 @@ export function Game({onGameOver}) {
         }
     };
 
+    const simulateWin = () => {
+        // Simulate a board with only one peg left
+        const wonBoard = [
+            [' '],  
+            [' '],  
+            [' '],  
+            [' '],  
+            [' '],  
+            ['X'],  // Only one peg left, simulating a win
+        ];
+    
+        setBoard(wonBoard);
+        checkWinCondition(wonBoard); // Trigger the win condition check
+    };
+
+    React.useEffect(() => {
+        simulateWin(); // Simulate the win on component mount
+    }, []);
+
     return (
         <div className="game">
-            {gameOver ? (
+            {gameWon ? (
+                <WinScreen numMoves={numMoves} onPlayAgain={handlePlayAgain} />
+            ) : gameOver ? (
                 <GameOverScreen numMoves={numMoves} onPlayAgain={handlePlayAgain} />
             ) : (
                 <>
