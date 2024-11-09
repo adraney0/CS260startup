@@ -23,9 +23,9 @@ export function About() {
         <h2>How To Play</h2>
         <p>
             The game starts with an empty hole at the top of the board. Jump pegs over each other
-            one at a time into an empty spot. The peg that was jumped over is then removed.
-            In order to win the game, one must end with one peg remaining. The
-            less number of moves used, the better.
+            one at a time into an empty spot. Once a peg is clicked on, all possible moves are then displayed. Choose one of the empty spots to jump to.
+            The peg that was jumped over is then removed. In order to win the game, one must end with one peg remaining. The
+            less number of moves used, the better. 
         </p>
         <hr />
     </main>
