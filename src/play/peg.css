@@ -30,6 +30,6 @@
     border: 2px solid #467599;
   }
 .peg.selected {
-    background-color: #008080; /* Change this to whatever you want */
+    background-color: #008080; 
     border: 2px solid #005A5A;
 }

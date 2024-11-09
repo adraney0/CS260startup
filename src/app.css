@@ -22,16 +22,6 @@ footer {
     flex: 0 30px;
 }
 
-.game-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    flex: 1;
-    position: absolute;
-}
 
 menu {
     flex: 1;
@@ -50,6 +40,7 @@ footer a {
 
 .bg-second {
     background-color: #E9FFF9;
+    position: relative;
 }
 
 .bg-main {

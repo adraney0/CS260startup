@@ -14,7 +14,10 @@ export function Play(props) {
   return (
     <main className = "bg-second"> 
          {!gameOver && <Players userName={props.userName} />}
-        <Game userName = {props.userName} onGameOver = {handleGameOver}/>
+         <div className = "game-container"> 
+           <Game userName = {props.userName} onGameOver = {handleGameOver}/>
+         </div>
+        
     </main>
   );
 }

@@ -5,6 +5,7 @@ import {Score} from './scores';
 import {GameOverScreen} from './gameOverScreen';
 import {Controls} from './controls';
 import './play.css';
+import './game.css'
 
 export function Game({onGameOver}) {
 
@@ -204,7 +205,7 @@ export function Game({onGameOver}) {
                 <GameOverScreen numMoves={numMoves} onPlayAgain={handlePlayAgain} />
             ) : (
                 <>
-                    <table className = "game-wrapper">
+                    <table>
                         <tbody>
                             {board.map((row, rowIndex) => (
                                 <tr key={rowIndex}>

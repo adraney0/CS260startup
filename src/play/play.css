@@ -1,27 +1,29 @@
 body {
     display: flex;
     flex-direction: column;
-    min-width: 375 px;
-    position:fixed;
+    min-width: 375px;
+    height: 100vh;
     top: 0;
     left: 0;
     right: 0;
 }
 
 header {
-    flex: 0 80px;
+    flex: 80px;
 }
 
 main {
-    flex: 1 1 calc(100vh - 110px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    flex-grow: 1;
+    height: auto;
+    padding: 0 20px;
 }
 
 footer {
-    flex: 1 30px;
+    flex: 30px;
 }
 
 menu {
@@ -95,12 +97,6 @@ footer a {
 }
   
 
-.game {
-    flex: 1;
-    display: flex;
-}
-
-
 table {
     display: flex;
     justify-content: center;
@@ -149,3 +145,6 @@ tr {
     background-color:  rgb(192, 192, 192) !important;
 }
 
+.game-container {
+    position: relative;
+}

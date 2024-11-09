@@ -1,5 +1,8 @@
 .players {
-    flex: 1;
+    position: fixed;
+    top: 80px;
+   
+    flex: 0.25;
     width: 100%;
     padding: 0.5em;
   }
