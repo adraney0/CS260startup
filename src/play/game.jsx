@@ -2,22 +2,25 @@ import React, { useState} from 'react';
 
 import {Peg} from './peg';
 import {Score} from './scores';
+import {GameOverScreen} from './gameOverScreen';
 import './play.css';
 
-export function Game(props) {
-    const userName = props.userName;
+export function Game({onGameOver}) {
 
-    const [board,setBoard] = useState([
+    const initialBoard = [
         [' '],  // Row 1 (1 peg)
         ['X', 'X'],  // Row 2 (2 pegs)
         ['X', 'X', 'X' ],  // Row 3 (3 pegs)
         ['X', 'X', 'X', 'X'],  // Row 4 (4 pegs)
         ['X', 'X', 'X', 'X', 'X'],  // Row 5 (5 pegs)
         ['X', 'X', 'X', 'X', 'X', 'X'],  // Row 6 (6 pegs)
-    ]);
+    ];
+
+    const [board,setBoard] = useState(initialBoard);
     const [selectedPeg, setSelectedPeg] = useState(null); 
     const [possibleMoves, setPossibleMoves] = useState([]);
     const [numMoves, setNumMoves] = useState(0);
+    const [gameOver, setGameOver] = useState(false);
     
 
    
@@ -56,6 +59,8 @@ export function Game(props) {
 
     // Function to handle peg click events
     const handleClick = (row, col) => {
+        if (gameOver) return;
+
         const newBoard = [...board];
         if (selectedPeg) {
             // If the same peg is clicked again, deselect it
@@ -80,6 +85,7 @@ export function Game(props) {
                     setPossibleMoves([]);
 
                     setNumMoves(prevMoves => prevMoves + 1);
+                    checkGameOver(newBoard);
                 }
             }
         } else {
@@ -107,11 +113,8 @@ export function Game(props) {
             const newRow = row + rowChange;
             const newCol = col + colChange;
 
-            console.log(`Checking move: rowChange=${rowChange}, colChange=${colChange}, newRow=${newRow}, newCol=${newCol}`);
-
             // Check if the new row and column are within bounds of the board
             if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[newRow].length) {
-                console.log("inside for loop")
                 // Check if this move is valid
                 if (isValidMove(row, col, newRow, newCol)) {
                     moves.push([newRow, newCol]);
@@ -122,33 +125,74 @@ export function Game(props) {
         return moves;
     };
     
+    const checkGameOver = (board) => {
+        let movesLeft = false;
+
+        for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+            for (let colIndex = 0; colIndex < board[rowIndex].length; colIndex++) {
+                if (board[rowIndex][colIndex] === 'X' && getPossibleMoves(rowIndex, colIndex).length > 0) {
+                    movesLeft = true;
+                    break;
+                }
+            }
+            if (movesLeft) break;  // Stop once we find a valid move
+        }
+
+
+        if (!movesLeft) {
+            setGameOver(true);
+        }
+    }
+
+    React.useEffect(() => {
+        const movesLeft = board.some((row, rowIndex) => 
+            row.some((cell, colIndex) => cell === 'X' && getPossibleMoves(rowIndex, colIndex).length > 0)
+        );
+        if (!movesLeft) {
+            setGameOver(true);
+            onGameOver(true);
+        }
+    }, [board]);
+
+    const handlePlayAgain = () => {
+        setBoard(initialBoard);
+        setSelectedPeg(null);
+        setNumMoves(0);
+        setGameOver(false);
+        onGameOver(false);
+    }
+
     return (
-        <div className = "game" >
-            <table>
-                <tbody>
-                    {board.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                            {row.map((status, colIndex) => {
-                            // Check if this peg is selected
-                            const isSelected = selectedPeg && selectedPeg[0] === rowIndex && selectedPeg[1] === colIndex;
-                            const isPossibleMove = possibleMoves.some(([r, c]) => r === rowIndex && c === colIndex);
-            
-                            return (
-                                <td key={colIndex}>
-                                <Peg
-                                    status={status === 'X' ? 'active' : 'empty'}
-                                    isSelected={isSelected}
-                                    isPossibleMove={isPossibleMove}
-                                    onClick={() => handleClick(rowIndex, colIndex)}
-                                />
-                                </td>
-                            );
-                            })}
-                      </tr>
-                    ))}
-                </tbody>
-            </table>
-            <Score numMoves = {numMoves} />
+        <div className="game">
+            {gameOver ? (
+                <GameOverScreen numMoves={numMoves} onPlayAgain={handlePlayAgain} />
+            ) : (
+                <>
+                    <table>
+                        <tbody>
+                            {board.map((row, rowIndex) => (
+                                <tr key={rowIndex}>
+                                    {row.map((status, colIndex) => {
+                                        const isSelected = selectedPeg && selectedPeg[0] === rowIndex && selectedPeg[1] === colIndex;
+                                        const isPossibleMove = possibleMoves.some(([r, c]) => r === rowIndex && c === colIndex);
+                                        return (
+                                            <td key={colIndex}>
+                                                <Peg
+                                                    status={status === 'X' ? 'active' : 'empty'}
+                                                    isSelected={isSelected}
+                                                    isPossibleMove={isPossibleMove}
+                                                    onClick={() => handleClick(rowIndex, colIndex)}
+                                                />
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <Score numMoves={numMoves} />
+                </>
+            )}
         </div>
     );
 }
