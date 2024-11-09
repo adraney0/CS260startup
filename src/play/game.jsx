@@ -213,14 +213,14 @@ export function Game({onGameOver}) {
     };
 
     return (
-        <div className="game">
+        <div className = "game">
             {gameWon ? (
                 <WinScreen numMoves={numMoves} onPlayAgain={handlePlayAgain} />
             ) : gameOver ? (
                 <GameOverScreen numMoves={numMoves} onPlayAgain={handlePlayAgain} />
             ) : (
                 <>
-                    <table>
+                    <table className = "game-board">
                         <tbody>
                             {board.map((row, rowIndex) => (
                                 <tr key={rowIndex}>

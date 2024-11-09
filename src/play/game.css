@@ -23,13 +23,11 @@
     margin-left: 20px;
 }
 
-.game-over {
+.game-over-screen{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-  }
+    padding: 30px;
+}

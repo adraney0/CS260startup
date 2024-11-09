@@ -10,7 +10,7 @@ export function GameOverScreen({ numMoves, onPlayAgain}) {
             <div className = "score">
                 <p>Moves : {numMoves}</p>
             </div>
-            <button onClick = {onPlayAgain} className = "play-again-btn">Play Again</button>
+            <button onClick = {onPlayAgain} className = "btn btn-main">Play Again</button>
         </div>
     );
 }
