@@ -53,3 +53,17 @@ For this deliverable I properly styled the application into its final appearance
 - Application Elements - Used consistent color themes, with good contrast.
 - Application Text Content - Used consistent fonts
 - Application Images - Image on about page is properly styled, responsive to window resizing.
+
+## React Deliverale
+For this deliverable I used JavaScript and React so the application now works for a single user. I also added placeholders for future technology.
+- Bundled and transpiled - done!
+- Components - Play, Scores, and About are all components with with mocks for login WebSocket.
+  - login - when you press login it takes you to the play page
+  - scores - updates using localstorage with recent high scores
+  - play - contains game component, players component, and controls component. When user wins/the game ends it uses those components to alter the layout of the page. Mock for WebSocket with live updates about players. 
+  - about - contains placeholder for web service, random images. 
+  - database - displaying high scores. Stored and retrieved from local store, will be replaced with database data later.
+  - WebSocket - updates with random messages at a set interval. Will be replaced with WebSocket messages later.
+  - application logic - game logic, highlighting possible moves when a user seleßcts a peg, calculating when game is over/won. 
+- Router - routing between login and play components (about, high scores, play)
+- Hooks - primarily using UseState to track changes within the game. Represents specific states of the game (Ex: current state of board, currently selected peg, etc.)
