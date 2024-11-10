@@ -5,10 +5,11 @@ import {Score} from './scores';
 import {GameOverScreen} from './gameOverScreen';
 import {Controls} from './controls';
 import {WinScreen} from './winScreen';
+import {GameEvent, GameNotifier} from './gameNotifier';
 import './play.css';
 import './game.css'
 
-export function Game({onGameOver}) {
+export function Game({onGameOver, userName}) {
 
     const initialBoard = [
         [' '],  // Row 1 (1 peg)
@@ -93,11 +94,13 @@ export function Game({onGameOver}) {
 
                     
                     setBoard(newBoard);
+
+                    setNumMoves(prevMoves => prevMoves + 1);
                     
                     setSelectedPeg(null);
                     setPossibleMoves([]);
 
-                    setNumMoves(prevMoves => prevMoves + 1);
+                    
                     checkGameOver(newBoard);
                     checkWinCondition(newBoard);
                     setRedoStack([]);
@@ -156,6 +159,7 @@ export function Game({onGameOver}) {
 
         if (!movesLeft) {
             setGameOver(true);
+            saveScoreOnGameOver(board);
         }
     }
 
@@ -187,6 +191,7 @@ export function Game({onGameOver}) {
         setUndoStack([]);
         setRedoStack([]);
         onGameOver(false);
+        
     };
 
     const handleUndo = () => {
@@ -211,6 +216,54 @@ export function Game({onGameOver}) {
             setNumMoves(prevMoves => prevMoves + 1);
         }
     };
+
+    // Save the score when the game ends (win or lose)
+    const saveScoreOnGameOver = (board) => {
+        
+        const remainingPegs = board.flat().filter(cell => cell === 'X').length;
+        const score = {
+            name: userName, // Make sure `userName` is available or set it up somewhere
+            pegsRemaining: remainingPegs,
+            numMoves: numMoves
+        };
+        saveScore(score);
+    };
+
+    async function saveScore(score) {
+        const { pegsRemaining, numMoves, name } = score;
+    const date = new Date().toLocaleDateString();
+
+    // Compute score based on pegs remaining and number of moves
+    const scoreValue = pegsRemaining * 10 - numMoves;  // Adjust this formula to suit your needs
+
+    const newScore = { name, pegsRemaining, numMoves, date, score: scoreValue };
+
+    GameNotifier.broadcastEvent(userName, GameEvent.End, newScore);
+    updateScoresLocal(newScore);
+    };
+
+    function updateScoresLocal(newScore) {
+        let scores = [];
+        const scoresText = localStorage.getItem('scores');
+        if(scoresText) {
+            scores = JSON.parse(scoresText);
+        }
+        
+        scores.push(newScore);
+
+        scores.sort((a, b) => {
+            if (a.pegsRemaining === b.pegsRemaining) {
+                return a.numMoves - b.numMoves;  // Sort by moves if pegs remaining are tied
+            }
+            return a.pegsRemaining - b.pegsRemaining;  // Sort by pegs remaining
+        });
+    
+          if (scores.length > 10) {
+            scores.length = 10;
+          }
+      
+          localStorage.setItem('scores', JSON.stringify(scores));
+    }
 
     return (
         <div className = "game">

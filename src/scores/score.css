@@ -1,6 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.bg-scores {
+  background-color: #E9FFF9 ;
+}
 td {
-    max-width: 40vw;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
+  max-width: 40vw;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.table-cstm{
+  display: table;
+  table-layout: fixed;
+}
+
+.table-cstm th {
+  width: 100%
+}
+
+.table-cstm td {
+  width: 100%;
+}
+
+
+.table-holder {
+  margin: 0 auto;
+}
