@@ -54,7 +54,7 @@ For this deliverable I properly styled the application into its final appearance
 - Application Text Content - Used consistent fonts
 - Application Images - Image on about page is properly styled, responsive to window resizing.
 
-## React Deliverale
+## React Deliverable
 For this deliverable I used JavaScript and React so the application now works for a single user. I also added placeholders for future technology.
 - Bundled and transpiled - done!
 - Components - Play, Scores, and About are all components with with mocks for login WebSocket.
