@@ -2207,6 +2207,13 @@ query {
     - data schema: blueprint/struture that defines how data is organized
   - packages provide support for schema implementations and database adaptors for query support. 
 ## Simon Service
+- create new service with new directory in root of the project named service. To iniatlize code, open command console iwndow and setup NPM project and install Express
+```
+mkdir service && cd service
+npm init -y
+npm install express
+```
+- in that directory create file named index.js in root of project. This is entry point that node.js will call when you run your service. 
 ## Startup Service
 ## Service Daemons - PM2
 - when running program from console, it automatically terminates after you close/computer restarts.
