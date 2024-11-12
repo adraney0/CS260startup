@@ -2146,3 +2146,146 @@ Cross-Origin Requests - when wep application in one domain makes request to reso
 - when you make requests to own web services you're always on same orgin and don't violate SOP
 - requests to different domain - ensure that domain allwos requests, defined by `Access-Control-Allow-Origin` header it returns.
 - test services you use in application, ensure they have `*` in header. 
+
+## Service Design
+- web services provide interactive functionality
+- user authentication, track session state, provide, store, and analyze data connect peers and aggregate user information. 
+- makes easier to use, perform and extensible (determine success of application).
+- good design = increased productivity, user satisfaction, lower processing
+### Model and Sequence Diagrams
+- model of primary objects and interactions
+- use model according to how user thinks of it
+- [alt text](https://raw.githubusercontent.com/webprogramming260/.github/main/profile/webServices/design/webServicesSequenceDiagram.jpg)
+### Leveraging HTTP
+- web services provided over HTTP (HTTP is a big influence)
+- HTTP verbs (GET,POST,PUT,and DELETE) usually mirror designed actions of web service.
+  EX: service managing comments might list comments (GET), create comments (POST), update a comment (PUT), and delete a comment (DELETE). 
+  - MIME content types defined by IANA are natural fit for defining types of content you want to provide (HTML, PNG, MP3)
+- want to leverage tochnologies so you don't have to recreate functionality. Take advantage of already created infrastructure. 
+  - caching servers to increase performance, edge servers to bring ocntent closer, replication servers to provide redundant copies of content  and make application more resilient to network failures
+### Endpoints
+- web service usually divided into multiple service endpoints
+- each endpoint provides single functional purpose
+- often called API (Application Programming Interface) because of old desktop applications and programming interfaes they exposed
+  - API sometimes refers to one endpoint or multiple
+- Things to consider:
+   - Grammatical - in HTTP everything is a resource. You act on the resource with an HTTP verb
+   - Readable - resource you're referencing with HTTP request should be clearly readble in URL path
+   - Discoverable - as you expose resources that contain other resources you can provide endpoints for aggregated resources. Makes it so someone using endpoints only needs to remember top level endpoint
+   - Compatible - when you build, ensure you can add new functionality without breaking existing clients. Add new things without breaking or impacting the old ones. Can deprecate things but you want to keep compatibility of at least one previous verson so clients can migrate
+   - Simple - keep endpoints focused on primary resources of applicaiton. Avoids temptation to add endpoints that duplicate/create parllel access to primary resources. Helpful to write simple class and sequence diagrams outlining primary resources before coding. Focus on actal resources not data structure/devices used to host. Should only do one thing
+   - Documented - open AI specification has examples of tooling that helps create, use and maintain documentation of service endpoints. Helpful for good client libraries and sandbox experimentaiton. Creating an initial draft of documentaiton before coding helps mentally clarify design and yields better result.
+### RPC
+- Remote Procedure Calls - expose serfice endpoints as simple function calls. 
+- when used over HTTP, leverages POST HTTP verb. Actual verb and subject of function call is resprsesented by function name. Name of function is either entire path of URL/parameter in POST body
+- maps directly to function calls that might exist within the server
+  - could be considered a disadvantabe because it directly exposes inner workings of service, creating coupling between endpoints and impmlementation
+### REST
+- Representational State Transfer - tries to take advantage of foundational principles of HTTP
+- act upon a resource. Impact state of resource 
+- allows for caching functionality of HTTP to work optimally (GET always returns same resource until PUT is executed on resource when PUT is used, cached resource is replaced with updated resource)
+### GraphQl
+- focuses on manipulation of data instead of function call/resource
+- query specifies desired data and how it should be joined and filtered. 
+- developed to address frustration concerning massive number of REST /RPC calls a web application client needed to make to support just a simple UI widget
+- rather than making a call for getting a store and calls for getting the stores orders and employees. It sends a single querey asking for all that info in a single JSON response. Server then examines, joins and filters anything unwanted.
+- EX:
+```
+query {
+  getOrder(id: "2197") {
+    orders(filter: {date: {allofterms: "20220505"}}) {
+      store
+      description
+      orderedBy
+    }
+  }
+}
+```
+- helps remove logic for parsing endpoints and mapping requests to specific resources. Only one endpoint
+- Downside: client has lots of power to consume resources. No clear boundary on what, how much/how complicated data is. 
+  - difficult for server to implement authorization rights to data as they must be baked into data schema
+    - data schema: blueprint/struture that defines how data is organized
+  - packages provide support for schema implementations and database adaptors for query support. 
+## Simon Service
+## Startup Service
+## Service Daemons - PM2
+- when running program from console, it automatically terminates after you close/computer restarts.
+- `daemon` - register program to keep it running after shutdown. always working in the background
+- Process Manager 2 - (PM2), already installed on production server as part os AWS AMI. 
+- you can SSH into server and see PM2 inaction using `pm2 ls` 
+  - prints out 2 services, simon and startup
+|                         Command                        |                                      Purpose                                     |
+|:------------------------------------------------------:|:--------------------------------------------------------------------------------:|
+| pm2 ls                                                 | List all of the hosted node processes                                            |
+| pm2 monit                                              | Visual monitor                                                                   |
+| pm2 start index.js -n simon                            | Add a new process with an explicit name                                          |
+| pm2 start index.js -n startup -- 4000                  | Add a new process with an explicit name and port parameter                       |
+| pm2 stop simon                                         | Stop a process                                                                   |
+| pm2 restart simon                                      | Restart a process                                                                |
+| pm2 delete simon                                       | Delete a process from being hosted                                               |
+| pm2 delete all                                         | Delete all processes                                                             |
+| pm2 save                                               | Save the current processes across reboot                                         |
+| pm2 restart all                                        | Reload all of the processes                                                      |
+| pm2 restart simon --update-env                         | Reload process and update the node version to the current environment definition |
+| pm2 update                                             | Reload pm2                                                                       |
+| pm2 start env.js --watch --ignore-watch="node_modules" | Automatically reload service when index.js changes                               |
+| pm2 describe simon                                     | Describe detailed process information                                            |
+| pm2 startup                                            | Displays the command to run to keep PM2 running after a reboot.                  |
+| pm2 logs simon                                         | Display process logs                                                             |
+| pm2 env 0                                              | Display environment variables for process. Use pm2 ls to get the process ID      |
+### Registering a New Web Service
+- to set up another subdomain that accesses a different web service on your web server, do the following:
+1. add rule to Caddyfile to tell ithow to direct requests for the domain
+  - SSH into server
+  - copy section for startup subdomain and alter it so it represents desired subdomain and give it a different port number not currently used by server
+  ```
+  tacos.cs260.click {
+  reverse_proxy _ localhost:5000
+  header Cache-Control none
+  header -server
+  header Access-Control-Allow-Origin *
+  }
+  ```
+  - restart caddy to load new sesttings
+  ```
+  sudo service caddy restart
+  ```
+2. Create directory and add files for web service
+  - copy directory to directory that represents purpose of your service
+  ```
+  cp -r ~/services/startup ~/services/tacos
+  ```
+  - if you list directory you should see an index.js file that's the main JS file for your web service. Has code to listen on designated network port and respond to requests. Below causes web service to listen on a port thats provided as an argument to the command line
+  ```
+  const port = process.argv.length > 2 ? process.argv[2] : 3000;
+  app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+  });
+  ```
+  - also directory named public that has static HTML/CSS/JS files that web service will respond with when requested. Index.js file enables this with folloiwng code: 
+  ```
+  app.use(express.static('public'));
+  ```
+  - Start up web service, listening on port 5000
+  ```
+  node index.js 5000
+  ```
+  - access web service through browser/curl
+  ```
+  curl https://tacos.cs260.click
+  ```
+  - Caddy receives request and map subdomain to tacos.cs260.click to a request for http://localhost:5000. Web service is listening on port 5000 and receives request and responds
+  - stop by pressing CTRL-C in SSH console
+3. Configure PM2 to host web service
+  - allows web service to always be running in the background
+  - from SSH console run:
+  ```
+  pm2 ls
+  ```
+  - lists web services you've already registered with PM2. To run newly created web service under PM2, ensure you're in your service directory and run similar command:
+  ```
+  cd ~/services/tacos
+  pm2 start index.js -n tacos - 5000
+  pm2 save
+  ```
+  - if you run pm2 ls again you sould see web service listed. Can now access subdomain in browser and see proper response. PM2 will keep running your service even after you exit SSH session
