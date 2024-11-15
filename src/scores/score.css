@@ -7,8 +7,11 @@
 .bg-scores {
   background-color: #E9FFF9 ;
 }
+table {
+  width: 100%
+}
+
 td {
-  max-width: 40vw;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -16,6 +19,7 @@ td {
 .table-cstm{
   display: table;
   table-layout: fixed;
+  width: 100%;
 }
 
 .table-cstm th {
