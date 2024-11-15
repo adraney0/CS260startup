@@ -202,7 +202,7 @@ export function Game({onGameOver, userName}) {
             setBoard(lastBoard);
             
             setUndoStack(prevUndo => prevUndo.slice(0, -1));
-            setNumMoves(prevMoves => prevMoves - 1);
+            setNumMoves(prevMoves => prevMoves + 1);
 
         }
     };
