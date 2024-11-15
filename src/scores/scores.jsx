@@ -7,10 +7,24 @@ const [scores, setScores] = React.useState([]);
 
     React.useEffect(() => {
         fetch('/api/scores')
-            .then((response) => response.json())
-            .then((scores) => {
-                 setScores(scores);
+        .then((response) => response.json())
+        .then((scores) => {
+            // Ensure the scores are an array and sort them
+            if (Array.isArray(scores)) {
+            const sortedScores = scores.sort((a, b) => {
+                if (a.pegsRemaining === b.pegsRemaining) {
+                return a.numMoves - b.numMoves;  // Sort by moves if pegs remaining are tied
+                }
+                return a.pegsRemaining - b.pegsRemaining;  // Sort by pegs remaining
             });
+            setScores(sortedScores);
+            } else {
+            console.warn("Invalid scores format from API");
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching scores from API:", error);
+        });
     }, []);
 
     console.log(scores);

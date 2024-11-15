@@ -245,31 +245,7 @@ export function Game({onGameOver, userName}) {
         });
 
         GameNotifier.broadcastEvent(userName, GameEvent.End, newScore);
-        updateScoresLocal(newScore);
     };
-
-    function updateScoresLocal(newScore) {
-        let scores = [];
-        const scoresText = localStorage.getItem('scores');
-        if(scoresText) {
-            scores = JSON.parse(scoresText);
-        }
-        
-        scores.push(newScore);
-
-        scores.sort((a, b) => {
-            if (a.pegsRemaining === b.pegsRemaining) {
-                return a.numMoves - b.numMoves;  // Sort by moves if pegs remaining are tied
-            }
-            return a.pegsRemaining - b.pegsRemaining;  // Sort by pegs remaining
-        });
-    
-          if (scores.length > 10) {
-            scores.length = 10;
-          }
-      
-          localStorage.setItem('scores', JSON.stringify(scores));
-    }
 
     return (
         <div className = "game">
