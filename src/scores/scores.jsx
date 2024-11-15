@@ -34,11 +34,11 @@ const [scores, setScores] = React.useState([]);
         for (const [i, score] of scores.entries()) {
             scoreRows.push(
                 <tr key = {i}>
-                    <td>{i + 1}</td>
-                    <td>{score.name.split('@')[0]}</td>
-                    <td>{score.pegsRemaining}</td>
-                    <td>{score.numMoves + 1}</td>
-                    <td>{score.date}</td>
+                    <td className = "special">{i + 1}</td>
+                    <td className = "special">{score.name.split('@')[0]}</td>
+                    <td className = "special">{score.pegsRemaining}</td>
+                    <td className = "special">{score.numMoves + 1}</td>
+                    <td className = "special"> {score.date}</td>
                 </tr>
             );
         }

@@ -11,6 +11,9 @@ table {
   width: 100%
 }
 
+.special {
+  max-width: 40vw;
+}
 td {
   overflow: hidden;
   white-space: nowrap;
