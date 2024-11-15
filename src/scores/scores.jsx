@@ -6,28 +6,11 @@ export function Scores() {
 const [scores, setScores] = React.useState([]);
 
     React.useEffect(() => {
-        const scoresText = localStorage.getItem('scores');
-        if (scoresText) {
-            try {
-                const loadedScores = JSON.parse(scoresText);
-                
-                // Ensure the loadedScores is an array
-                if (Array.isArray(loadedScores)) {
-                  // Optionally, sort the scores here if needed
-                  const sortedScores = loadedScores.sort((a, b) => {
-                    if (a.pegsRemaining === b.pegsRemaining) {
-                        return a.numMoves - b.numMoves;  // Sort by moves if pegs remaining are tied
-                    }
-                    return a.pegsRemaining - b.pegsRemaining;  // Sort by pegs remaining
-                });
-                  setScores(sortedScores);
-                } else {
-                  console.warn("Invalid scores format in localStorage");
-                }
-              } catch (error) {
-                console.error("Error parsing scores from localStorage:", error);
-              }
-        }
+        fetch('/api/scores')
+            .then((response) => response.json())
+            .then((scores) => {
+                 setScores(scores);
+            });
     }, []);
 
     console.log(scores);

@@ -222,7 +222,7 @@ export function Game({onGameOver, userName}) {
         
         const remainingPegs = board.flat().filter(cell => cell === 'X').length;
         const score = {
-            name: userName, // Make sure `userName` is available or set it up somewhere
+            name: userName, 
             pegsRemaining: remainingPegs,
             numMoves: numMoves
         };
@@ -231,15 +231,21 @@ export function Game({onGameOver, userName}) {
 
     async function saveScore(score) {
         const { pegsRemaining, numMoves, name } = score;
-    const date = new Date().toLocaleDateString();
+        const date = new Date().toLocaleDateString();
 
-    // Compute score based on pegs remaining and number of moves
-    const scoreValue = pegsRemaining * 10 - numMoves;  // Adjust this formula to suit your needs
+        // Compute score based on pegs remaining and number of moves
+        const scoreValue = pegsRemaining * 10 - numMoves;  
 
-    const newScore = { name, pegsRemaining, numMoves, date, score: scoreValue };
+        const newScore = { name, pegsRemaining, numMoves, date, score: scoreValue };
+        
+        await fetch('/api/score', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(newScore),
+        });
 
-    GameNotifier.broadcastEvent(userName, GameEvent.End, newScore);
-    updateScoresLocal(newScore);
+        GameNotifier.broadcastEvent(userName, GameEvent.End, newScore);
+        updateScoresLocal(newScore);
     };
 
     function updateScoresLocal(newScore) {
