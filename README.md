@@ -67,3 +67,11 @@ For this deliverable I used JavaScript and React so the application now works fo
   - application logic - game logic, highlighting possible moves when a user seleßcts a peg, calculating when game is over/won. 
 - Router - routing between login and play components (about, high scores, play)
 - Hooks - primarily using UseState to track changes within the game. Represents specific states of the game (Ex: current state of board, currently selected peg, etc.)
+
+## Service Deliverable
+For this deliverable I added backend endpoints for saving scores and user login functionality
+- Node.js/Express HTTP service - done!
+- Static middleware for frontend - done!
+- Calls to third party endpoints - makes to a random image API on the about page
+- Backend service endpoints - Placeholders for login that stores the current user on the server. Endpoints for saving scores.
+- Frontend calls service endpoints - I did this using the fetch function.
