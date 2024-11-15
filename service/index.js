@@ -9,6 +9,8 @@ const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 app.use(express.json());
 
+app.use(express.static('public'));
+
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
@@ -65,6 +67,8 @@ apiRouter.post('/score', (req, res) => {
 // updateScores considers a new score for inclusion in the high scores.
 function updateScores(newScore, scores) {
   let found = false;
+
+  // Insert newScore in sorted order (based on score and pegsRemaining)
   for (const [i, prevScore] of scores.entries()) {
     if (newScore.score > prevScore.score) {
       scores.splice(i, 0, newScore);
@@ -73,13 +77,24 @@ function updateScores(newScore, scores) {
     }
   }
 
+  // If newScore isn't added by the loop, add it at the end
   if (!found) {
     scores.push(newScore);
   }
 
+  // Sort the scores based on pegsRemaining and numMoves
+  scores.sort((a, b) => {
+    if (a.pegsRemaining === b.pegsRemaining) {
+      return a.numMoves - b.numMoves;  // Sort by moves if pegs remaining are tied
+    }
+    return a.pegsRemaining - b.pegsRemaining;  // Sort by pegs remaining
+  });
+
+  // Keep only the top 10 scores
   if (scores.length > 10) {
     scores.length = 10;
   }
 
+  // Return the updated scores array
   return scores;
 }

@@ -5,12 +5,25 @@ export function About() {
   const [imageUrl, setImageUrl] = React.useState('data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=');
 
   React.useEffect(() => {
-    setImageUrl('placeholder.jpg')
+    const random = Math.floor(Math.random() * 1000);
+    fetch(`https://picsum.photos/v2/list?page=${random}&limit=1`)
+      .then((response) => response.json())
+      .then((data) => {
+        const containerEl = document.querySelector('#picture');
+
+        const width = containerEl.offsetWidth;
+        const height = containerEl.offsetHeight;
+        const apiUrl = `https://picsum.photos/id/${data[0].id}/${width}/${height}?grayscale`;
+        setImageUrl(apiUrl);
+      })
+      .catch();
   }, []);
 
   return (
     <main className = "container-fluid bg-second text-center text-dark">
-        <div id="picture" className="picture-box"><img width="400px" src="placeholder.jpg" alt="random" /></div>
+        <div id="picture" className="picture-box">
+          <img src={imageUrl} alt="stock background" />
+        </div>
         <h2>About</h2>
         <p>
             Triangular Peg Solitaire is a strategy game where the player attempts 
