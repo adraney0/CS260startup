@@ -2296,3 +2296,14 @@ npm install express
   pm2 save
   ```
   - if you run pm2 ls again you sould see web service listed. Can now access subdomain in browser and see proper response. PM2 will keep running your service even after you exit SSH session
+
+## Development and Production Environments
+- important to seperate where you develop application and where it's released when working on commercial web app
+  - Often Several Environments: staging, internal testing, external testing
+  - If company is seeking 3rd party security security certification, they requre these environments to be strictly separated 
+ - developer doesn't have access to production environment to prevent from manipulation of entire company asset
+ - Continuous Integration (CI) Processes - checkout application code, lint, build, test, stage, test more, and then if everything checks out, deploy to production enviornment notifying different departments of release
+  - lint/linter - tool that analyzes source code to flag programming errors, bugs, stylistic errors, and suspicious constructs
+
+## Uploading Files
+## Storage Services
