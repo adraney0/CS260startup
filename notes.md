@@ -2680,6 +2680,85 @@ const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostna
 ```
 ** include `dbConfig.json` in `.gitignore`
 ### Testing Connection on Startup
+- it's nice to know connection string is correct before applicition attempts to access data
+- we can know when application starts by making asynchronous request to ping database. If it fails either connection string is incorrect, credentials are invalid, or network isn't working
+```
+const config = require('./dbConfig.json');
+
+const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
+const client = new MongoClient(url);
+const db = client.db('rental');
+
+(async function testConnection() {
+  await client.connect();
+  await db.command({ ping: 1 });
+})().catch((ex) => {
+  console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+  process.exit(1);
+});
+```
+### Using Mongo from Code
+- Use the following test:
+```
+const { MongoClient } = require('mongodb');
+const config = require('./dbConfig.json');
+
+async function main() {
+  // Connect to the database cluster
+  const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
+  const client = new MongoClient(url);
+  const db = client.db('rental');
+  const collection = db.collection('house');
+
+  // Test that you can connect to the database
+  (async function testConnection() {
+    await client.connect();
+    await db.command({ ping: 1 });
+  })().catch((ex) => {
+    console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+    process.exit(1);
+  });
+
+  // Insert a document
+  const house = {
+    name: 'Beachfront views',
+    summary: 'From your bedroom to the beach, no shoes required',
+    property_type: 'Condo',
+    beds: 1,
+  };
+  await collection.insertOne(house);
+
+  // Query the documents
+  const query = { property_type: 'Condo', beds: { $lt: 2 } };
+  const options = {
+    sort: { score: -1 },
+    limit: 10,
+  };
+
+  const cursor = collection.find(query, options);
+  const rentals = await cursor.toArray();
+  rentals.forEach((i) => console.log(i));
+}
+
+main().catch(console.error);
+```
+- To execute above:
+1. create directory called `mongoTest`
+2. save above content to file named `index.js`
+3. create file named `dbConfig.json` that contains credentials
+4. run `npm init -y`
+5. run `npm install mongodb`
+6. run `node index.js`
+- Expected Output:
+```
+{
+_id: new ObjectId("639b51b74ef1e953b884ca5b"),
+name: 'Beachfront views',
+summary: 'From your bedroom to the beach, no shoes required',
+property_type: 'Condo',
+beds: 1
+}
+```
 ## Authorization Services
 - if applicaiton is going to remember a user's data then it needs a way to uniquely associate data with particular credential
 - usually means you `authenticate` a user by asking for info, such as email and password.
