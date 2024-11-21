@@ -2304,6 +2304,213 @@ npm install express
  - developer doesn't have access to production environment to prevent from manipulation of entire company asset
  - Continuous Integration (CI) Processes - checkout application code, lint, build, test, stage, test more, and then if everything checks out, deploy to production enviornment notifying different departments of release
   - lint/linter - tool that analyzes source code to flag programming errors, bugs, stylistic errors, and suspicious constructs
+- We use and manage both development environment (personal computer) and production environment (AWS Server). 
+  - Never consider production environment as place to develop/experiment with application.
+  - can shell into production environment to configure server/debug production problem, but deployment should happen using CI process
+### Automating Deployment
+ - advantage of using automated deployment...reproducible. 
+- encourages you to iterate quickly because it's much easier to deploy code. Can add small feature, deploy, and get feedback from users quickly
+- ours change with each new technology. Initially just copied directory of HTML files but soon have ability to modify config of web server, run transpiler tools and bundle code into deployable package
+Deployment Script Command:
+```
+./deployService.sh -k ~/prod.pem -h yourdomain.click -s simon
+```
+- `-k` provides credential file necessary to access production enviornment
+- `-h` domain name of production envionrment
+- `-s` represents name of application you're deploying
+- first part of script parses command line parameters so we can pass in key, hostname of domain, and name of service you're deploying
+```
+while getopts k:h:s: flag
+do
+    case "${flag}" in
+        k) key=${OPTARG};;
+        h) hostname=${OPTARG};;
+        s) service=${OPTARG};;
+    esac
+done
 
+if [[ -z "$key" || -z "$hostname" || -z "$service" ]]; then
+    printf "\nMissing required parameter.\n"
+    printf "  syntax: deployService.sh -k <pem key file> -h <hostname> -s <service>\n\n"
+    exit 1
+fi
+
+printf "\n----> Deploying $service to $hostname with $key\n"
+```
+- next script copies all applicable source files into distribution directoy (`dist`), prepping for copying that to production server
+```
+# Step 1
+printf "\n----> Build the distribution package\n"
+rm -rf dist
+mkdir dist
+cp -r application dist
+cp *.js dist
+cp package* dist
+```
+- target directory on production environment is deleted so new one can replace it. Done by executing commands remoly using secure shell program
+```
+# Step 2
+printf "\n----> Clearing out previous distribution on the target\n"
+ssh -i $key ubuntu@$hostname << ENDSSH
+rm -rf services/${service}
+mkdir -p services/${service}
+ENDSSH
+```
+- distribution directory is copied to production environment using secure copy program (scp)
+```
+# Step 3
+printf "\n----> Copy the distribution package to the target\n"
+scp -r -i $key dist/* ubuntu@$hostname:services/$service
+```
+- then use ssh again to execute some commands on production environment. Installs node packages (`npm install`) and restarts service daemon(`PM2`) that runs web app in production environment
+```
+# Step 4
+printf "\n----> Deploy the service on the target\n"
+ssh -i $key ubuntu@$hostname << ENDSSH
+cd services/${service}
+npm install
+pm2 restart ${service}
+ENDSSH
+```
+- finally clean up development envionrment by deleting distribution package
+```
+# Step 5
+printf "\n----> Removing local copy of the distribution package\n"
+rm -rf dist
+```
+- this makes deploying so much easier!
 ## Uploading Files
+- web applications often need to upload one or more files from frontend application running in browser to backend service. Can accomplish by using HTML `input` element of type `file` on frontend and `Multer` NPM package on backend
+### Frontend
+- following code registers an event handler for when selected file changes and only accepts file of type `.png, .jpeg, or .jpg`. Also create `img` placeholder element to display uploaded image one it's been stored on server
+```
+<html lang="en">
+  <body>
+    <h1>Upload an image</h1>
+    <input
+      type="file"
+      id="fileInput"
+      name="file"
+      accept=".png, .jpeg, .jpg"
+      onchange="uploadFile(this)"
+    />
+    <div>
+      <img style="padding: 2em 0" id="upload" />
+    </div>
+    <script defer src="frontend.js"></script>
+  </body>
+</html>
+```
+- frontend JS handles uploading file to server and uses filename returned from server to set src attribute of image element in FOM. If error happens, alert is displayed to user
+```
+async function uploadFile(fileInput) {
+  const file = fileInput.files[0];
+  if (file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch('/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      document.querySelector('#upload').src = `/file/${data.file}`;
+    } else {
+      alert(data.message);
+    }
+  }
+}
+```
+### Backend Code
+- to build storage support into our server we need to install `multer` NPM package to our project
+```
+npm install multer
+```
+- multer handles reading file from HTTP request, enforcing size limit of upload and storing file in `uploads` directory. 
+- Service code does the following:
+  - handles requests for static files so we can serve up our frontend code
+  - handles errors EX: 64k file limit violated
+  - provides GET endpoint to serve up a file from the uploads directory
+```
+const express = require('express');
+const multer = require('multer');
+
+const app = express();
+
+app.use(express.static('public'));
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: 'uploads/',
+    filename: (req, file, cb) => {
+      const filetype = file.originalname.split('.').pop();
+      const id = Math.round(Math.random() * 1e9);
+      const filename = `${id}.${filetype}`;
+      cb(null, filename);
+    },
+  }),
+  limits: { fileSize: 64000 },
+});
+
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (req.file) {
+    res.send({
+      message: 'Uploaded succeeded',
+      file: req.file.filename,
+    });
+  } else {
+    res.status(400).send({ message: 'Upload failed' });
+  }
+});
+
+app.get('/file/:filename', (req, res) => {
+  res.sendFile(__dirname + `/uploads/${req.params.filename}`);
+});
+
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    res.status(413).send({ message: err.message });
+  } else {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+```
+### Where You Store Your Files
+- shouldn't put files on server
+1. only so much available space (8GB). Once used server won't operate right may need to rebuild
+2. in production system, servers are transient and are often replaced as new versions are releaced/capacity requirements change. Means you'll lose any state you store on your server
+3. server storage isn't usually backed up
+4. if you have muliple application servers you can't assume the server you uploaded the data is going to be the one you request a download from.
+- instead use dedicared storage service that has durability guarantees, not tied to computer capacity and can be accessed by multiple application servers.
 ## Storage Services
+- web apps commply need sto store files associated with app/users
+  - Ex: images, user uploads, documents, movies
+- files ususally have an ID, metadata, and bytes representing file itself. Can be stored using database service...overkill simpler solution is cheaper
+### AWS S3
+- Advantages:
+1. unlimited capacity
+2. only pay for what you use
+3. optimized for global access
+4. keeps multiple redundant copies of every file
+5. can version files
+6. performant
+7. supports metadata tags
+8. can keep files publicly available directly from S3
+9. can keep files private and only accessible to your application
+- steps to use:
+1. Creating a S3 bucket to store your data in.
+2. Getting credentials so that your application can access the bucket.
+3. Using the credentials in your application.
+4. Using the SDK to write, list, read, and delete files from the bucket.
+- don't include your credentials in your code. If put in GitHub repo can be stolen and used by hackers to take over AWS account
+## Data Services
+## Authorization Services
+## Account Creation and Login
+## Simon Login
+## Startup Login
