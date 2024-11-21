@@ -2510,7 +2510,201 @@ app.listen(3000, () => {
 4. Using the SDK to write, list, read, and delete files from the bucket.
 - don't include your credentials in your code. If put in GitHub repo can be stolen and used by hackers to take over AWS account
 ## Data Services
+- web applications commonly need to store application and user data persistently
+- data is usually a representation of complex interrelated objects
+   - user profile, organizational structure, game play info, usage history, billing info, peer relationship, library catalog, etc.
+- used to use SQL
+- around 2010 specialty data services that better support document, graph, JSON, time, sequence, and key-value pair data began to take significant roles in applicaitons from major companies. Called NoSSQL b/c they didn't use general purpose relational database paradigms popularized by SQL databasess.
+- all have different underlying data structures, strengths and weaknesses
+
+|    Service    |       Specialty       |
+|:-------------:|:---------------------:|
+| MySQL         | Relational queries    |
+| Redis         | Memory cached objects |
+| ElasticSearch | Ranked free text      |
+| MongoDB       | JSON objects          |
+| DynamoDB      | Key value pairs       |
+| Neo4J         | Graph based data      |
+| InfluxDB      | Time series data      |
+
+### MongoDB
+- increases developer productivity by using Json objects as core data model. Makes it easy to have an applicaiton that uses JSON from top to bottom of tech stack. 
+- made of one or more collections that each contain JSON documents. 
+- large array of JS objects, each with unique ID. 
+- EX: houses for rent
+```
+[
+  {
+    _id: '62300f5316f7f58839c811de',
+    name: 'Lovely Loft',
+    summary: 'A charming loft in Paris',
+    beds: 1,
+    last_review: {
+      $date: '2022-03-15T04:06:17.766Z',
+    },
+    price: 3000,
+  },
+  {
+    _id: '623010b97f1fed0a2df311f8',
+    name: 'Infinite Views',
+    summary: 'Modern home with infinite views from the infinity pool',
+    property_type: 'House',
+    beds: 5,
+    price: 250,
+  },
+];
+```
+- no strict schema requirements (doesn't have rigid table definition where colmuns must be strictly typed and defined beforehand)
+- each document usually follows similar schema, but may have specialized feels/common fields missing
+- allows scema of collection to morph as data model of application evolves
+- to add new field you insert field into documents as desired. If field isn't present/has different type in some documents then document doesn't mactch query critera when the field is referenced
+- Queries:
+```
+// find all houses
+db.house.find();
+
+// find houses with two or more bedrooms
+db.house.find({ beds: { $gte: 2 } });
+
+// find houses that are available with less than three beds
+db.house.find({ status: 'available', beds: { $lt: 3 } });
+
+// find houses with either less than three beds or less than $1000 a night
+db.house.find({ $or: [(beds: { $lt: 3 }), (price: { $lt: 1000 })] });
+
+// find houses with the text 'modern' or 'beach' in the summary
+db.house.find({ summary: /(modern|beach)/i });
+```
+### Using MongoDB
+- install package
+```
+➜ npm install mongodb
+```
+- use `MongoClient` object to make client connection to database server. Requires username, password, and hostname of database server
+```
+const { MongoClient } = require('mongodb');
+
+const userName = 'holowaychuk';
+const password = 'express';
+const hostname = 'mongodb.com';
+
+const url = `mongodb+srv://${userName}:${password}@${hostname}`;
+
+const client = new MongoClient(url);
+```
+- with client connection you can get a dtabase object and from there a collection object
+  - collection object - allows you to insert and query for documents. Don't have to do anything special to insert JS object as a Mongo document. 
+  - call `insertOne` function on collection object and pass it JS object
+  - when you insert if database/collection doesn't exist Mongo automatically creates for you
+  - when document is inserted into colelction it automatically is assigned a unique ID
+```
+const collection = client.db('rental').collection('house');
+
+const house = {
+  name: 'Beachfront views',
+  summary: 'From your bedroom to the beach, no shoes required',
+  property_type: 'Condo',
+  beds: 1,
+};
+await collection.insertOne(house);
+```
+- Quereying for Documents - use `find` function on collection object. Asynchronous so we use `await` keyword to wait for promise to resolve before we write to console
+```
+const cursor = collection.find();
+const rentals = await cursor.toArray();
+rentals.forEach((i) => console.log(i));
+```
+- if you don't supply parameters fo `find` functino it will return all documents in collection. 
+Output:
+```
+[
+  {
+    _id: new ObjectId('639a96398f8de594e198fc13'),
+    name: 'Beachfront views',
+    summary: 'From your bedroom to the beach, no shoes required',
+    property_type: 'Condo',
+    beds: 1,
+  },
+];
+```
+- you can provide a querey and options to `find`function. 
+```
+const query = { property_type: 'Condo', beds: { $lt: 2 } };
+
+const options = {
+  sort: { price: -1 },
+  limit: 10,
+};
+
+const cursor = collection.find(query, options);
+const rentals = await cursor.toArray();
+rentals.forEach((i) => console.log(i));
+```
+### Managed Services
+ - historically each application development team would have developers that managed the data service. They would:
+  - aquire hardware
+  - install database software
+  - monitor memory, cpu and disk space
+  - control data schema
+  - handle migrations and upgrades
+- nowadays hosted and managed by 3rd party. Development team doens't have to do day to day maintanence. Can focus more on application and less on infrastructure.
+- with managed data service you can simply supply data and service grows/shrinks to support
+### MongoDB Atlas
+- data service provided by MongoDB
+- Main Setup Steps:
+1. Create your account.
+2. Create a database cluster.
+3. Create your root database user credentials. Remember these for later use.
+4. Set network access to your database to be available from anywhere.
+5. Copy the connection string and use the information in your code.
+6. Save the connection and credential information in your production and development environments as instructed above.
+**Can always find connectino string to Atlas cluster by pressing `Connect` button from database > dataservices view
+### Keeping Keys Out of Code
+- protect credentials for connecting to Mongo database. Don't post to public GitHug repo.
+- load credentials when application executes
+  - JSON configuration file that contains credentials that you dynamically load into JS that makes database connection
+  - use config file in development enviornment and deploy it to production, but never commit it to GitHub
+1. Create file named `dbConfig.json` in same directory as database JS that you use to make database requests
+2. insert Mongo DB credentials into `dbCongig.json file in JSOn format
+```
+{
+  "hostname": "cs260.abcdefg.mongodb.net",
+  "userName": "myMongoUserName",
+  "password": "toomanysecrets"
+}
+```
+3. Import `dbConfig.json` content into `database.js` file using Node.js require statement and use data that it respents to create connection URL
+```
+const config = require('./dbConfig.json');
+const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
+```
+** include `dbConfig.json` in `.gitignore`
+### Testing Connection on Startup
 ## Authorization Services
+- if applicaiton is going to remember a user's data then it needs a way to uniquely associate data with particular credential
+- usually means you `authenticate` a user by asking for info, such as email and password.
+- remember info for some period of tim by storing an `authentication token` on user's device. Often stored in a cookie that is passed back to your web service on each request. 
+- service can now associate data the user supplies with a unique identifier that corresponds to their authorizaiton token
+- determining what user is authorized to do in applciation is important:
+  - Different roles... administrators, editors, customers.
+  - with ability to authenticate user and store info about them you can also store authorization. 
+  - simple app may have single field that represents role of user. 
+  - service code then uses that role to allow/limit/prevent what service endpoint does. 
+  - complev web app usually has very powerful authorizaiton representation that controls the user's access to every part of the app. Ex: editor role may have authorization only to work on content they created/were invited to
+- can be very complex
+- primary hacker target - if they can bypass/escalate what they're authorized to do they can gain control of your applicaiotn. 
+- constant authorization decreasses user happiness
+- opposing priorities: security vs usability
+- in attempt to remove complexity of authenticaiton and authorization from application many service providers and package developers have solutions you can use. Assuming you're using a trusted, well-tested service this can be a good option - removes cost of building, testing, and managing yourself
+- Authorization services often use standard protocls for authenticating and authorizng
+  - OAuth
+  - SAML
+  - OIDC
+  - usually support concepts like `single sign on `(SSO) and Federated Login. 
+    - SSO allows user to use same credentials for multiple web apps. 
+    - EX: can log into GitHub using Google
+    - Federated Login - allws user to log in once, and then authentication token is reused to autmotically log user into multiple websites
+    - EX: logging into GMail allows you to use Google Docs and Youtube w/o logging in again.
 ## Account Creation and Login
 ## Simon Login
 ## Startup Login
