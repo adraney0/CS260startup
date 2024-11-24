@@ -75,3 +75,12 @@ For this deliverable I added backend endpoints for saving scores and user login 
 - Calls to third party endpoints - makes to a random image API on the about page
 - Backend service endpoints - Placeholders for login that stores the current user on the server. Endpoints for saving scores.
 - Frontend calls service endpoints - I did this using the fetch function.
+
+## DB/Login Deliverable
+For this deliverable I created secure login, storing users in a database. I also stored high scores in the database and displayed the high scores.
+- MongoDB Atlas Database Created - done!
+- Stores data in MongoDB - done!
+- User registration - creates a new account in the database.
+- Existing User - stores the scores under the same user if the user already exists
+- Use MongoDB to store credentials - stores both the user and their scores
+- Restricts Functionality - you can only play the game once you have logged in. 
