@@ -7,6 +7,7 @@ import { About } from './about/about';
 import { AuthState } from './login/authState';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
+import { PrivateRoute } from './privateRoute/privateRoute';
 
 export default function App() {
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
@@ -55,9 +56,9 @@ export default function App() {
                         } 
                         exact 
                     />
-                    <Route path='/play' element={<Play userName={userName} />} />
-                    <Route path='/scores' element={<Scores />} />
-                    <Route path='/about' element={<About />} />
+                    <Route path='/play' element={<PrivateRoute element={<Play userName={userName} />} authState={authState} />} />
+                    <Route path='/scores' element={<PrivateRoute element={<Scores />} authState={authState} />} />
+                    <Route path='/about' element={<PrivateRoute element={<About />} authState={authState} />}  />
                     <Route path='*' element={<NotFound />} />
                 </Routes>
 
