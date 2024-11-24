@@ -1,3 +1,4 @@
+//import { dev } from $app/environment;
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const bcrypt = require('bcrypt');
@@ -28,7 +29,7 @@ apiRouter.post('/auth/create', async (req, res) => {
     const user = await DB.createUser(req.body.email, req.body.password);
 
     // Set the cookie
-    setAuthCookie(res, user.token);
+    setAuthCookie(req, res, user.token);
 
     res.send({
       id: user._id,
@@ -41,7 +42,7 @@ apiRouter.post('/auth/login', async (req, res) => {
   const user = await DB.getUser(req.body.email);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
-      setAuthCookie(res, user.token);
+      setAuthCookie(req, res, user.token);
       res.send({ id: user._id });
       return;
     }
@@ -94,9 +95,9 @@ app.use((_req, res) => {
 });
 
 // setAuthCookie in the HTTP response
-function setAuthCookie(res, authToken) {
+function setAuthCookie(req, res, authToken) {
   res.cookie(authCookieName, authToken, {
-    secure: true,
+    secure: req.hostname==='localhost' && req.protocol==='http' ? false:true,
     httpOnly: true,
     sameSite: 'strict',
   });
@@ -105,38 +106,3 @@ function setAuthCookie(res, authToken) {
 const httpService = app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
-
-// updateScores considers a new score for inclusion in the high scores.
-function updateScores(newScore, scores) {
-  let found = false;
-
-  // Insert newScore in sorted order (based on score and pegsRemaining)
-  for (const [i, prevScore] of scores.entries()) {
-    if (newScore.score > prevScore.score) {
-      scores.splice(i, 0, newScore);
-      found = true;
-      break;
-    }
-  }
-
-  // If newScore isn't added by the loop, add it at the end
-  if (!found) {
-    scores.push(newScore);
-  }
-
-  // Sort the scores based on pegsRemaining and numMoves
-  scores.sort((a, b) => {
-    if (a.pegsRemaining === b.pegsRemaining) {
-      return a.numMoves - b.numMoves;  // Sort by moves if pegs remaining are tied
-    }
-    return a.pegsRemaining - b.pegsRemaining;  // Sort by pegs remaining
-  });
-
-  // Keep only the top 10 scores
-  if (scores.length > 10) {
-    scores.length = 10;
-  }
-
-  // Return the updated scores array
-  return scores;
-}

@@ -25,7 +25,7 @@ export function Game({onGameOver, userName}) {
     const [possibleMoves, setPossibleMoves] = useState([]);
     const [numMoves, setNumMoves] = useState(0);
     const [gameOver, setGameOver] = useState(false);
-    const [gameWon, setGamewon]  = useState(false);
+    const [gameWon, setGameWon]  = useState(false);
     
     const [undoStack, setUndoStack] = useState([]);
     const [redoStack, setRedoStack] = useState([]);
@@ -178,7 +178,7 @@ export function Game({onGameOver, userName}) {
 
         if(remainingPegs === 1){
             setGameOver(true);
-            setGamewon(true);
+            setGameWon(true);
         }
     }
 
@@ -187,7 +187,7 @@ export function Game({onGameOver, userName}) {
         setSelectedPeg(null);
         setNumMoves(0);
         setGameOver(false);
-        setGamewon(false);
+        setGameWon(false);
         setUndoStack([]);
         setRedoStack([]);
         onGameOver(false);
@@ -233,10 +233,7 @@ export function Game({onGameOver, userName}) {
         const { pegsRemaining, numMoves, name } = score;
         const date = new Date().toLocaleDateString();
 
-        // Compute score based on pegs remaining and number of moves
-        const scoreValue = pegsRemaining * 10 - numMoves;  
-
-        const newScore = { name, pegsRemaining, numMoves, date, score: scoreValue };
+        const newScore = { name, pegsRemaining, numMoves, date};
         
         await fetch('/api/score', {
             method: 'POST',
