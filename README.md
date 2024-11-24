@@ -83,4 +83,4 @@ For this deliverable I created secure login, storing users in a database. I also
 - User registration - creates a new account in the database.
 - Existing User - stores the scores under the same user if the user already exists
 - Use MongoDB to store credentials - stores both the user and their scores
-- Restricts Functionality - you can only play the game once you have logged in. 
+- Restricts Functionality - you can only play the game once you have logged in. Restricted for backend as well (can access pages by inputting URL, takes you back to the login page)
