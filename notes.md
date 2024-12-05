@@ -2077,6 +2077,7 @@ npm install -g nodemon
 ```
  - Configure VS Code:  `⌘-SHIFT-P` -> `Debug: Add configuration` -> `Node.js` -> `Node.js: Nodemon setup`
    - launch configuration change program to main JS file for application
+# Express
 ## Express
 - Node package
 - created by TJ Holowaychuk
@@ -2146,7 +2147,7 @@ Cross-Origin Requests - when wep application in one domain makes request to reso
 - when you make requests to own web services you're always on same orgin and don't violate SOP
 - requests to different domain - ensure that domain allwos requests, defined by `Access-Control-Allow-Origin` header it returns.
 - test services you use in application, ensure they have `*` in header. 
-
+# Service
 ## Service Design
 - web services provide interactive functionality
 - user authentication, track session state, provide, store, and analyze data connect peers and aggregate user information. 
@@ -3068,6 +3069,7 @@ socket.send('I am listening');
 ```
 6. you should see messages in messages debugger window
 7. send some more messages and observe the communication back and forth without stopping on breakpoints. 
+ # WebSocket
 ## WebSocket Chat
 ### Chat Client
 - HTML for client provides input for user's name, input for creating messages, and element ot display the messages that are sent and received
@@ -3256,3 +3258,194 @@ ws.on('pong', () => {
 });
 ```
  - any connection that didn't respond will remain in not alive state and get cleaned up on next pass
+
+ ## Endpoint Testing
+ - Test Driven Development (TDD) for testing service endpoints is common industry
+ - Services are usually easier than writing b/c it doesn't requre a browser
+ - Jest is main leader of services
+ - to start, need simble web service
+ ```
+  mkdir testJest
+  cd testJest
+  npm init -y
+  npm install express
+  code .
+  ```
+- create `server.js` file, use Express to create two endpoints, get a store and update
+```
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+// Endpoints
+app.get('/store/:storeName', (req, res) => {
+  res.send({ name: req.params.storeName });
+});
+
+app.put('/store/:storeName', (req, res) => {
+  req.body.updated = true;
+  res.send(req.body);
+});
+
+module.exports = app;
+```
+- to allow Jest ot start up the HTTP server when running tests, initalize application by exporting express app object from server.js file and import abb object in index.js file
+- breaking up definition of service from starting lets us start service both when we run normally and when using the testing framework
+- test service is working by running service in VSCode and press F5 in index.js file. Then open browser and go to `http://localhost:8080/store/provo`. Stop debugging session once demonstrated it's working correctly
+- to launch service using Jest, create another file with suffix of `.test.js` any file with that suffic is considered testing file and wil automatically be discovered by Jesta and examined for tests to run
+### A Simple Test
+- test is created by calling Jest `test` function. Don't need `require` statement, Jest automatically imports itself
+- `test` function - takes description as first param (human readable), second param is function to call
+- to run, install Jest package using NPM. -D param tells NPM to install Jest as a development package. Keeps it from being included when we do production release builds
+ ```
+ npm install jest -D
+ ```
+- replace scripts section of package.json file with new command to run tests with Jest
+```
+"scripts": {
+  "test": "jest"
+},
+```
+- run test command to execute
+```
+➜ npm run test
+
+ FAIL  ./store.test.js
+  ✕ that unequal values are not equal (1 ms)
+
+  ● that unequal values are not equal
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      3 |
+      4 | test('that unequal values are not equal', () => {
+    > 5 |   expect(false).toBe(true);
+        |                 ^
+      6 | });
+      7 |
+      8 | // describe('endpoints', ()) => {}
+
+      at Object.toBe (store.test.js:5:17)
+
+Tests:       1 failed, 1 total
+```
+- test fails, jest shows where
+- to fix update store.test.js
+```
+test('that equal values are equal', () => {
+  expect(true).toBe(true);
+});
+```
+- does the following
+```
+➜  npm run test
+
+ PASS  ./store.test.js
+  ✓ that equal values are equal (1 ms)
+
+Tests:       1 passed, 1 total
+```
+### Testing Endpoints
+- to test endpoints we need another package so wen can make HTTP requests without having to actually send them over the network. 
+```
+npm install supertest -D
+```
+- alter `store.test.js` to import Express service and `request` function from `supertest` that we'll use to make HTTP requests
+- to make an HTTP you pass Express `app` to `supertest` `request` function and chain HTTP verb function you want to call, along with endpoint path. Can chain as many `expect` functions as you want. 
+- store.test.js
+```
+const request = require('supertest');
+const app = require('./server');
+
+test('getStore returns the desired store', (done) => {
+  request(app)
+    .get('/store/provo')
+    .expect(200)
+    .expect({ name: 'provo' })
+    .end((err) => (err ? done(err) : done()));
+});
+```
+- run test, and it passes
+```
+➜  npm run test
+
+ PASS  ./store.test.js
+  ✓ getStore returns the desired store (16 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        0.237 s, estimated 1 s
+```
+- test for updateStore endpoint, copy getStore, change description, change HTTP function verb to put and send body of put request using chained send function
+```
+const request = require('supertest');
+const app = require('./server');
+
+test('updateStore saves the correct values', (done) => {
+  request(app)
+    .put('/store/provo')
+    .send({ items: ['fish', 'milk'] })
+    .expect(200)
+    .expect({ items: ['fish', 'milk'], updated: true })
+    .end((err) => (err ? done(err) : done()));
+});
+
+test('getStore returns the desired store', (done) => {
+  request(app)
+    .get('/store/provo')
+    .expect(200)
+    .expect({ name: 'provo' })
+    .end((err) => (err ? done(err) : done()));
+});
+```
+- TDD - allows you to write tests first and then write code based on design represented by tests. When tests pass you know code is complete. Can make modifications to code and runt tests again, if they pass you can be confident your code is still working
+## UI Testing
+- TDD is proven methodology for accelerating application creation, protecting against regression bugs, and demonstratinc correctness
+  - TDD for console based applications and server based code is straight forward
+  - TDD for Web application UI code is signficantly more complex to test, using automated tests to drive UI development is even more difficult
+- browser is required to execute UI code. you must actually test application in browser. Every major browsers behaves slightly differently, viewports, network discruptions, human interaction
+- impossible to test everything you need to
+### Automating the Browser - Playwright
+- companies bulding web browsers need to test every possible use of HTML, CSS, and JS a user could think of
+- no way that manual testing is goint to work and so early on they started putting hooks into their browsers that allowed them to be driven from automated external processes
+- Selenium - 2004, first populat tool to automate browser, flaky (test fails in unpredictable, unreproducible ways) and slow
+- lots of alterntavies now
+- Playwright - backed by microsoft, integrates well with VSCode, runs on Node.js. Least flaky
+- install playwright, in project directory use NPM to download Playwright packages, install browser drivers, configure project, and create example test files
+```
+npm init playwright@latest
+```
+- install Playwright extension for VSCode. Extensions tab in VSCode, search for and install `PlayWright Test for VSCode`
+- can now write first Playwright test, past following over `tests/example.spec.js` file Playwright install created
+```
+import { test, expect } from '@playwright/test';
+
+test('testWelcomeButton', async ({ page }) => {
+  // Navigate to the welcome page
+  await page.goto('http://localhost:5500/');
+
+  // Get the target element and make sure it is in the correct starting state
+  const hello = page.getByTestId('msg');
+  await expect(hello).toHaveText('Hello world');
+
+  // Press the button
+  const changeBtn = page.getByRole('button', { name: 'change welcome' });
+  await changeBtn.click();
+
+  // Expect that the change happened correctly
+  await expect(hello).toHaveText('I feel not welcomed');
+});
+```
+- makes sure you can successfully navigate to desired page, page contains desired elements, can press button and text changes as expected
+- before you run test, run application with VS Code LiveServer extension. 
+  - can add config to tests so application is started when tests run
+- to run test in VSCode select `Test Explorer` tab. Should see test listed, push play. Starts lest, launches browser, runs test code to interact with browser and displays result
+### Testing Various Devices - BrowserSTack
+- lets you pick from list of physical devices that you can run interactively/use when driving automated tests with Selenium
+- when you launch device it connects browser interface to physical device hosted indata center
+- can use device to reproduce user reported problems or validate implementation works on that specific device
