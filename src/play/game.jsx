@@ -214,6 +214,9 @@ export function Game({onGameOver, userName}) {
             setBoard(nextBoard);
             setRedoStack(prevRedo => prevRedo.slice(0, -1));
             setNumMoves(prevMoves => prevMoves + 1);
+
+            // Let other players know a new game has started
+            GameNotifier.broadcastEvent(userName, GameEvent.Start, {});
         }
     };
 
