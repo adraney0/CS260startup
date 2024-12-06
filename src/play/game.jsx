@@ -164,6 +164,7 @@ export function Game({onGameOver, userName}) {
     }
 
     React.useEffect(() => {
+        
         const movesLeft = board.some((row, rowIndex) => 
             row.some((cell, colIndex) => cell === 'X' && getPossibleMoves(rowIndex, colIndex).length > 0)
         );
@@ -192,6 +193,8 @@ export function Game({onGameOver, userName}) {
         setRedoStack([]);
         onGameOver(false);
         
+        // Let other players know a new game has started
+        GameNotifier.broadcastEvent(userName, GameEvent.Start, {});
     };
 
     const handleUndo = () => {
@@ -214,9 +217,6 @@ export function Game({onGameOver, userName}) {
             setBoard(nextBoard);
             setRedoStack(prevRedo => prevRedo.slice(0, -1));
             setNumMoves(prevMoves => prevMoves + 1);
-
-            // Let other players know a new game has started
-            GameNotifier.broadcastEvent(userName, GameEvent.Start, {});
         }
     };
 
