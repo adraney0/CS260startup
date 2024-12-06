@@ -16,6 +16,15 @@ function peerProxy(httpServer) {
   let connections = [];
 
   wss.on('connection', (ws) => {
+    console.log('Client connected');
+    ws.on('message', (message) => {
+      console.log('Received message:', message);
+    });
+  });
+  
+  console.log("WebSocket server running on ws://localhost:5000");
+
+  wss.on('connection', (ws) => {
     const connection = { id: uuid.v4(), alive: true, ws: ws };
     connections.push(connection);
 
