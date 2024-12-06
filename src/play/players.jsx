@@ -29,7 +29,7 @@ export function Players(props) {
     for (const [i, event] of events.entries()) {
       let message = 'unknown';
       if (event.type === GameEvent.End) {
-        message = `finished in ${event.value.numMoves} moves with ${event.value.pegsRemaining} pegs remaining`;
+        message = `finished in ${event.value.numMoves + 1} moves with ${event.value.pegsRemaining} pegs remaining`;
       } else if (event.type === GameEvent.Start) {
         message = `started a new game`;
       } else if (event.type === GameEvent.System) {
