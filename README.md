@@ -84,3 +84,10 @@ For this deliverable I created secure login, storing users in a database. I also
 - Existing User - stores the scores under the same user if the user already exists
 - Use MongoDB to store credentials - stores both the user and their scores
 - Restricts Functionality - you can only play the game once you have logged in. Restricted for backend as well (can access pages by inputting URL, takes you back to the login page)
+
+## WebSocket Deliverable
+For this deliverable I used WebSocket to display updates about players (new game started, scores)
+- Backend listens for WebSocket connection - done!
+- Frontend makes WebSocket connection - done!
+- Data sent over WebSocket connection - done!
+- WebSocket data displayed - all new scores and game starts are displayed in real time on the play page. 
