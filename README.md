@@ -91,3 +91,4 @@ For this deliverable I used WebSocket to display updates about players (new game
 - Frontend makes WebSocket connection - done!
 - Data sent over WebSocket connection - done!
 - WebSocket data displayed - all new scores and game starts are displayed in real time on the play page. 
+- All visible elements working - application functions how it is intended and all components that were mocked up are functional
